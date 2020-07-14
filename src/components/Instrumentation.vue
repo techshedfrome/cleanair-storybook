@@ -70,7 +70,7 @@
 export default {
   name: "instrumentation",
   props: {
-    task: {
+    instrumentation: {
       type: Object,
       required: true,
       default: () => ({
@@ -78,17 +78,17 @@ export default {
         state: "",
         title: "",
         pm10: "",
-        pm2_5: ""
+        pm2_5: "",
       })
     }
   },
-  computed: {
-    taskClass() {
-      return `list-item ${this.task.state}`;
-    },
-    isChecked() {
-      return this.task.state === "TASK_ARCHIVED";
-    }
-  }
+  // computed: {
+  //   taskClass() {
+  //     return `list-item ${this.instrumentation.state}`;
+  //   },
+  //   isChecked() {
+  //     return this.instrumentation.state === "TASK_ARCHIVED";
+  //   }
+  // }
 };
 </script>

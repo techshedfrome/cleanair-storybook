@@ -11,22 +11,22 @@ export const actionsData = {
     onArchiveTask: action('onArchiveTask'),
 };
 
-export const taskData = {
+export const instrumentationData = {
     id: '1',
-    title: 'Test Task',
-    state: 'Task_INBOX',
+    title: 'Test instrumentation',
+    state: 'instrumentation_CONTAINER',
     updated_at: new Date(2019, 0, 1, 9, 0),
 };
 
-const instrumentationTemplate = `<instrumentation :instrumentation="instrumentation" @archiveTask="onArchiveTask" @pinTask="instrumentation"/>`;
+const instrumentationTemplate = `<instrumentation :instrumentation="{}" />`;
 
-// default task state
+// default state
 export const Default = () => ({
     components: { Instrumentation },
     template: instrumentationTemplate,
     props: {
-        task: {
-            default: () => taskData,
+        instrumentation: {
+            default: () => instrumentationData,
         },
     },
     methods: actionsData,

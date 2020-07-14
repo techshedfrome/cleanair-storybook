@@ -7,7 +7,7 @@
 
 <script>
   import store from './store';
-  import TaskList from './components/Instrumentation.vue';
+  import Instrumentation from './components/Instrumentation.vue';
 
   export default {
     name: 'app',

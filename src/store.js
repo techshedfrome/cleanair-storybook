@@ -14,19 +14,19 @@ export default new Vuex.Store({
         ],
     },
     mutations: {
-        ARCHIVE_TASK(state, id) {
-            state.tasks.find(task => task.id === id).state = 'TASK_ARCHIVED';
-        },
-        PIN_TASK(state, id) {
-            state.tasks.find(task => task.id === id).state = 'TASK_PINNED';
-        },
+        // ARCHIVE_TASK(state, id) {
+        //     state.tasks.find(task => task.id === id).state = 'TASK_ARCHIVED';
+        // },
+        // PIN_TASK(state, id) {
+        //     state.tasks.find(task => task.id === id).state = 'TASK_PINNED';
+        // },
     },
     actions: {
-        archiveTask({ commit }, id) {
-            commit('ARCHIVE_TASK', id);
-        },
-        pinTask({ commit }, id) {
-            commit('PIN_TASK', id);
-        },
+        // archiveTask({ commit }, id) {
+        //     commit('ARCHIVE_TASK', id);
+        // },
+        // pinTask({ commit }, id) {
+        //     commit('PIN_TASK', id);
+        // },
     },
 });
