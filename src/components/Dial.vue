@@ -1,7 +1,5 @@
 <template>
   <div id=":device_id" class="container">
-    <button v-on:click="show = !show">Toggle</button>
-
     <transition name="fade">
       <div class="has-text-centered mt-2" v-show="show">
         <div class="level-item">
@@ -18,19 +16,11 @@
   </div>
 </template>
 
-
 <script>
 //import µm³ to Daqi conversion
 export default {
   name: "dial",
   props: {
-    values: {
-      type: Object,
-      required: true,
-      default: () => ({
-        show: false
-      })
-    },
     device_id: {
       type: String,
       required: true,

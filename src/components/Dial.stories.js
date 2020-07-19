@@ -1,5 +1,7 @@
 // src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
+import { addDecorator } from '@storybook/vue'
+import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 import Dial from './Dial';
 export default {
     title: 'Dial',
@@ -21,16 +23,12 @@ const dialTemplate = `<dial
                             :show="show" 
                             />`;
 
-// default state
-export const Default = () => ({
+addDecorator(withKnobs)
+
+export const toStorybook = () => ({
     components: { Dial },
     template: dialTemplate,
     props: {
-        values: {
-            default: () => ({
-                show: true
-            })
-        },
         device_id: {
             default: () => '1'
         },
@@ -38,17 +36,21 @@ export const Default = () => ({
             default: () => new Date()
         },
         main_value: {
-            default: () => 3
+            default: () => number('main_value', 3)
         },
         sub_value: {
-            default: () => 14.32
+            default: () => number('sub_value', 14.32)
         },
         is_large: {
             default: () => true
         },
         show: {
-            default: () => true
+            default: () => boolean('show', true)
         },
     },
     methods: actionsData,
 });
+
+toStorybook.story = {
+    name: 'Default Dial State',
+}
