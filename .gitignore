@@ -21,3 +21,4 @@ build-storybook.log*
 *.njsproj
 *.sln
 *.sw?
+build-storybook.log
