@@ -14,7 +14,6 @@ export const actionsData = {
 };
 
 const dialTemplate = `<dial 
-                            :values="values" 
                             :device_id="device_id" 
                             :last_seen="last_seen" 
                             :main_value="main_value" 
