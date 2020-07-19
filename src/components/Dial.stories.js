@@ -32,13 +32,13 @@ export const toStorybook = () => ({
             default: () => '1'
         },
         last_seen: {
-            default: () => new Date()
+            default: () => boolean('old data', false) ? new Date('2020-01-01') : new Date()
         },
         main_value: {
-            default: () => number('main_value', 3)
+            default: () => number('main value', 3)
         },
         sub_value: {
-            default: () => number('sub_value', 14.32)
+            default: () => number('sub value', 14.32)
         },
         is_large: {
             default: () => true

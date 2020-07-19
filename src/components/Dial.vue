@@ -3,12 +3,12 @@
     <transition name="fade">
       <div class="has-text-centered mt-2" v-show="show">
         <div class="level-item">
-          <div class="value-badge value-badge-large border aqi-1 title">
-            <div class="has-text-centered shift-down">{{ main_value }}</div>
+          <div :class="dialClass">
+            <div class="shift-down">{{ main_value }}</div>
             <div
               class="is-size-6 has-text-weight-bold shift-up has-text-black"
             >{{ sub_value }} {{sub_value_units}}</div>
-            <div class="is-size-4 has-text-weight-bold band has-text-black">Low</div>
+            <div class="is-size-4 has-text-weight-bold band has-text-black">{{pollutionBand}}</div>
           </div>
         </div>
       </div>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+
+import { getColourClassForAqi, indexToPollutionBandFromAqi } from "./airquality-index.js"
 //import µm³ to Daqi conversion
 export default {
   name: "dial",
@@ -58,13 +60,20 @@ export default {
     }
   },
   computed: {
-    sizeClass() {
-      return `list-item ${is_large ? "large" : "small"}`;
+    dialClass() {
+      var daqiClass = getColourClassForAqi(this.main_value, !this.isLive) ;
+      return `value-badge value-badge-large border title ${ daqiClass } ${this.is_large ? "large" : "small"}`;
+    },
+    pollutionBand() {
+      var band = indexToPollutionBandFromAqi(this.isLive ? this.main_value : undefined) ;
+      return band === 'Coming Soon' ? 'Sensor Offline' : band;
     },
     isLive() {
+        console.log(this.last_seen);
       if (!this.last_seen) return false;
-      var hours = Math.floor(new Date().getTime() / 3600000 - this.last_seen);
-      retuen(hours < 3);
+      var hours = Math.floor((new Date().getTime() - this.last_seen) / 3600000);
+      console.log(hours);
+      return(hours < 3);
     }
   }
 };
@@ -89,6 +98,6 @@ export default {
 }
 
 .band {
-  margin-top: -1.5em;
+  line-height: 1em;
 }
 </style>
