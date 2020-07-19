@@ -1,38 +1,7 @@
 <template>
-  <div :class="instrumentationClass">
+  <div>
     <section class="is-medium">
-      <div class="hero-body has-text-centered is-12-desktop">
-        <div class="container">
-          <div
-            class="level-right-tablet has-text-centered mt-2"
-            id="_5eeba76aee9b25001b3ba5c7"
-            readingdate="2020-07-12T16:33:04+01:00"
-          >
-            <div class="level-item">
-                <!-- should have loading state -->
-                <!-- should animate on load -->
-                <!-- should have error state -->
-              <div>
-                <div class="value-badge-large is-size-1 border aqi-1 title invisible make-visible">
-                <!-- data driven -->
-                  1
-                </div>
-                <div>
-                  <span class="is-size-6">
-                    <!-- data driven -->
-                    1.8 µg/m³</span>
-                </div>
-
-                <span class="main-link is-size-3">
-                <!-- data driven -->
-                  Low</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
+      <dial v-bind="dialData" />
       <div class="container readings">
         <div class="AdviceBox reading-bare is-mobile has-background-warning-light">
           <div class="has-text-centered">
@@ -50,29 +19,29 @@
   </div>
 </template>
 
+
+
+
 <script>
+import Dial from "./Dial";
 export default {
   name: "instrumentation",
-  props: {
-    instrumentation: {
-      type: Object,
-      required: true,
-      default: () => ({
-        id: "",
-        state: "",
-        title: "",
-        pm10: "",
-        pm2_5: "",
-      })
-    }
+  components: {
+    Dial
   },
-  // computed: {
-  //   taskClass() {
-  //     return `list-item ${this.instrumentation.state}`;
-  //   },
-  //   isChecked() {
-  //     return this.instrumentation.state === "TASK_ARCHIVED";
-  //   }
-  // }
+  props: {
+    dialData: {
+      type: Object,
+      required: false,
+      default: () => ({
+          device_id:  "1",
+          last_seen:  new Date(),
+          main_value:  3,
+          sub_value: 14.32,
+          is_large: true,
+          show:  true,
+        })
+      }
+    },
 };
 </script>
