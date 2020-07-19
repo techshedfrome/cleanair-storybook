@@ -11,19 +11,6 @@
   to {
     transform: rotate(359deg); } }
 
-.value-badge-large {
-  border-radius: 2em;
-  border: 6px solid !important;
-  width: 1.6em;
-  height: 1.6em;
-  line-height: 2em;
-  box-sizing: content-box;
-  line-height: 1.6em;
-  margin: 0 0 0 auto !important;
-  font-weight: normal;
-  font-size: 6rem !important;
-}
-
 .delete, .modal-close, .button, .file, .breadcrumb, .pagination-previous,
 .pagination-next,
 .pagination-link,
@@ -8496,24 +8483,6 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   text-decoration: none;
   box-sizing: content-box; }
 
-.value-badge {
-  border-radius: 1.5em;
-  width: 1.6em;
-  height: 1.6em;
-  line-height: 2em;
-  box-sizing: content-box;
-  line-height: 1.6em;
-  margin: 0 0 0 auto !important;
-  font-weight: normal; }
-  @media screen and (max-width: 768px) {
-    .value-badge {
-      margin: auto 0 0 auto !important; } }
-
-.value-badge p {
-  display: block;
-  margin: 0;
-  padding: 0;
-  text-align: center; }
 
 .main-link {
   font-size: 90%; }
