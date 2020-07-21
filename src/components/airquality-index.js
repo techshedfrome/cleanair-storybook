@@ -91,6 +91,28 @@ const pollutionBandText = [
     "Very High",
 ];
 
+const pollutionBandAdvice = [
+    "Enjoy your usual outdoor activities.",
+    "Enjoy your usual outdoor activities.",
+    "Anyone experiencing discomfort such as sore eyes, cough or sore throat should consider reducing activity, particularly outdoors.",
+    "Reduce physical exertion, particularly outdoors, especially if you experience symptoms such as cough or sore throat.",
+];
+
+const pollutionBandAtRiskAdvice = [
+    "Enjoy your usual outdoor activities.",
+    "Adults and children with lung problems, and adults with heart problems, who experience symptoms, should consider reducing strenuous physical activity, particularly outdoors.",
+    "Adults and children with lung problems, and adults with heart problems, should reduce strenuous physical exertion, particularly outdoors, and particularly if they experience symptoms. People with asthma may find they need to use their reliever inhaler more often. Older people should also reduce physical exertion.",
+    "Adults and children with lung problems, adults with heart problems, and older people, should avoid strenuous physical activity. People with asthma may find they need to use their reliever inhaler more often.",
+];
+
+export function indexToAdviceFromAqi(index, atRisk) {
+    if (!index || index == "-") return '';
+    var band = indexToPollutionBandNumberFromAqi(index);
+    if (!band || band == "-") return '';
+    
+    return atRisk ? pollutionBandAtRiskAdvice[band - 1] : pollutionBandAdvice[band - 1];
+}
+
 export function indexToPollutionBandFromAqi(index) {
     if (!index || index == "-") return 'Coming Soon';
     var band = indexToPollutionBandNumberFromAqi(index);
