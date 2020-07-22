@@ -28,6 +28,7 @@ export const toStorybook = () => ({
     components: { Dial },
     template: dialTemplate,
     props: {
+
         device_id: {
             default: () => '1'
         },
@@ -39,9 +40,6 @@ export const toStorybook = () => ({
         },
         sub_value: {
             default: () => number('sub value', 14.32)
-        },
-        is_large: {
-            default: () => true
         },
         show: {
             default: () => boolean('show', true)

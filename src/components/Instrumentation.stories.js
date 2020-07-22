@@ -1,5 +1,7 @@
 // src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
+import { addDecorator } from '@storybook/vue'
+import { withKnobs, text, number, boolean } from '@storybook/addon-knobs';
 import Instrumentation from './Instrumentation';
 export default {
     title: 'Instrumentation',
@@ -12,21 +14,37 @@ export const actionsData = {
 };
 
 export const instrumentationData = {
-    id: '1',
-    title: 'Test instrumentation',
-    state: 'instrumentation_CONTAINER',
-    updated_at: new Date(2019, 0, 1, 9, 0),
 };
 
-const instrumentationTemplate = `<instrumentation :instrumentation="{}" />`;
+const instrumentationTemplate = `<instrumentation 
+                            :device_id="device_id" 
+                            :last_seen="last_seen" 
+                            :measure="measure" 
+                            :value="value" 
+                            :show="show" 
+                            />`;
+
+addDecorator(withKnobs)
 
 // default state
 export const Default = () => ({
     components: { Instrumentation },
     template: instrumentationTemplate,
     props: {
-        instrumentation: {
-            default: () => instrumentationData,
+        device_id: {
+            default: () => '1'
+        },
+        last_seen: {
+            default: () => boolean('old data', false) ? new Date('2020-01-01') : new Date()
+        },
+        measure: {
+            default: () => text('PM Type', "PM2.5")
+        },
+        value: {
+            default: () => number('main value', 14.32)
+        },
+        show: {
+            default: () => boolean('show', true)
         },
     },
     methods: actionsData,
