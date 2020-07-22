@@ -44,11 +44,6 @@ export default {
       required: false,
       default: () => "µg/m³"
     },
-    is_large: {
-      type: Boolean,
-      required: true,
-      default: () => true
-    },
     show: {
       type: Boolean,
       required: true,
@@ -58,9 +53,7 @@ export default {
   computed: {
     dialClass() {
       var daqiClass = getColourClassForAqi(this.main_value, !this.isLive);
-      return `value-badge value-badge-large border title ${daqiClass} ${
-        this.is_large ? "large" : "small"
-      }`;
+      return `value-badge value-badge-large border title ${daqiClass} large`;
     },
     pollutionBand() {
       var band = indexToPollutionBandFromAqi(
@@ -69,10 +62,8 @@ export default {
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     isLive() {
-      console.log(this.last_seen);
       if (!this.last_seen) return false;
       var hours = Math.floor((new Date().getTime() - this.last_seen) / 3600000);
-      console.log(hours);
       return hours < 3;
     }
   }
