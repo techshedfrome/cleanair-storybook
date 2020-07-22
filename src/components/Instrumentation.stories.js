@@ -41,7 +41,7 @@ export const Default = () => ({
             default: () => text('PM Type', "PM2.5")
         },
         value: {
-            default: () => number('main value', 14.32)
+            default: () => number('main value', 60.32)
         },
         show: {
             default: () => boolean('show', true)

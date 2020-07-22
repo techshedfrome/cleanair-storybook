@@ -18,7 +18,6 @@ const dialTemplate = `<dial
                             :last_seen="last_seen" 
                             :main_value="main_value" 
                             :sub_value="sub_value" 
-                            :is_large="is_large" 
                             :show="show" 
                             />`;
 
