@@ -22,6 +22,12 @@
 
 
 <script>
+/* 
+current arrangment isn't agnostic to the phenomena - may not matter for now, 
+but if these components are useful for different sensor types, this will need 
+a refactor to pass the raw value to Dial.main_value functions down from above
+and change the language to be more neutral
+*/
 import { pm25ToIndex, pm10ToIndex } from "./airquality-index.js";
 import Dial from "./Dial";
 import Advice from "./Advice";
