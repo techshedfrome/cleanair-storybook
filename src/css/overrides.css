@@ -14,7 +14,7 @@
 
 .value-badge.large {
     border-radius: 2em;
-    margin: auto;
+    margin: auto !important;
     line-height: 1em;
     font-size: 6rem;
     border: 6px solid;
