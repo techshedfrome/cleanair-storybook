@@ -1,12 +1,11 @@
 <!--src/App.vue-->
 <template>
   <div id="app">
-    <inbox-screen />
+    <instrumentation />
   </div>
 </template>
 
 <script>
-  import store from './store';
   import Instrumentation from './components/Instrumentation.vue';
 
   export default {

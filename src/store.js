@@ -6,28 +6,25 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        tasks: [
-            { id: '1', title: 'Something', state: 'TASK_INBOX' },
-            { id: '2', title: 'Something more', state: 'TASK_INBOX' },
-            { id: '3', title: 'Something else', state: 'TASK_INBOX' },
-            { id: '4', title: 'Something again', state: 'TASK_INBOX' },
+        devices: [
+            //compute api..?
+            //should health message be computed?
+            //bind to store properly... ?
+            { device_id: '1', measurement_selected: "PM10"  , pm10: 55.2 , pm2_5: 26.8 , aqi: 2 , pollution_band_index: 0 },
+            { device_id: '2', measurement_selected: "PM10"  , pm10: 55.2 , pm2_5: 26.8 , aqi: 2 , pollution_band_index: 0 },
+            { device_id: '3', measurement_selected: "PM10"  , pm10: 55.2 , pm2_5: 26.8 , aqi: 2 , pollution_band_index: 0 },
+            { device_id: '4', measurement_selected: "PM10"  , pm10: 55.2 , pm2_5: 26.8 , aqi: 2 , pollution_band_index: 0 },
         ],
         isDev: true,
     },
     mutations: {
-        // ARCHIVE_TASK(state, id) {
-        //     state.tasks.find(task => task.id === id).state = 'TASK_ARCHIVED';
-        // },
-        // PIN_TASK(state, id) {
-        //     state.tasks.find(task => task.id === id).state = 'TASK_PINNED';
-        // },
+        SELECT_MEASUREMENT(state, id, measurement) {
+            state.tasks.find(task => task.id === id).measurement_selected = measurement;
+        },
     },
     actions: {
-        // archiveTask({ commit }, id) {
-        //     commit('ARCHIVE_TASK', id);
-        // },
-        // pinTask({ commit }, id) {
-        //     commit('PIN_TASK', id);
-        // },
+        switchMeasurement({ commit }, id, measurement) {
+            commit('SELECT_MEASUREMENT', id, measurement);
+        },
     },
 });
