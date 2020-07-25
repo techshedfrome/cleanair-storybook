@@ -19,6 +19,7 @@ const dialTemplate = `<dial
                             :main_value="main_value" 
                             :sub_value="sub_value" 
                             :show="show" 
+                            :isDev="isDev" 
                             />`;
 
 addDecorator(withKnobs)
@@ -42,6 +43,9 @@ export const toStorybook = () => ({
         },
         show: {
             default: () => boolean('show', true)
+        },
+        isDev: {
+            default: () => true
         },
     },
     methods: actionsData,
