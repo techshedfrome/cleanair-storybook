@@ -64,7 +64,7 @@ export default {
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     isLive() {
-      if (webpackHotUpdate) console.log('checking age of reading to determin "live" status');
+      if (webpackHotUpdate) console.log('checking age of reading to determin "live" status for datetime '+ this.last_seen);
       if (!this.last_seen) return false;
       var hours = Math.floor((new Date().getTime() - this.last_seen) / 3600000);
       return hours < 3;
