@@ -1,3 +1,3 @@
 // .storybook/preview.js
-import '../src/main.css';
-import '../src/overrides.css';
+import '../src/css/main.css';
+import '../src/css/overrides.css';

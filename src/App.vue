@@ -18,7 +18,7 @@
   };
 </script>
 <style>
-  @import '../src/main.css';
-  @import '../src/overrides.css';
+  @import './css/main.css';
+  @import './css/overrides.css';
 </style>
 
