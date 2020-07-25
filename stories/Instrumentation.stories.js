@@ -2,7 +2,7 @@
 import { action } from '@storybook/addon-actions';
 import { addDecorator } from '@storybook/vue'
 import { withKnobs, text, number, boolean } from '@storybook/addon-knobs';
-import Instrumentation from './Instrumentation';
+import Instrumentation from '../src/components/Instrumentation';
 export default {
     title: 'Instrumentation',
     // Our exports that end in "Data" are not stories.
