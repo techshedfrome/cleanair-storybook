@@ -52,22 +52,19 @@ export default {
   },
   computed: {
     dialClass() {
+      if (webpackHotUpdate) console.log('getting dial class for aqi '+ this.main_value);
       var daqiClass = getColourClassForAqi(this.main_value, !this.isLive);
       return `value-badge border title ${daqiClass} large`;
     },
     pollutionBand() {
-      var band = indexToPollutionBandFromAqi(
-        this.isLive ? this.main_value : undefined
-      );
-      return band === "Coming Soon" ? "Sensor Offline" : band;
-    },
-    pollutionBand() {
+      if (webpackHotUpdate) console.log('getting pollution band for aqi '+ this.main_value);
       var band = indexToPollutionBandFromAqi(
         this.isLive ? this.main_value : undefined
       );
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     isLive() {
+      if (webpackHotUpdate) console.log('checking age of reading to determin "live" status');
       if (!this.last_seen) return false;
       var hours = Math.floor((new Date().getTime() - this.last_seen) / 3600000);
       return hours < 3;

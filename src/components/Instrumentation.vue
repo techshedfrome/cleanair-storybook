@@ -65,12 +65,12 @@ export default {
   },
   computed: {
     pollutionBand() {
+      if (webpackHotUpdate) console.log('getting pollution band for '+ this.measure +' of '+ this.value);
       if (this.measure !== "PM2.5" && this.measure !== "PM10") return 0;
       var aqi =
         this.measure === "PM2.5"
           ? pm25ToIndex(this.value)
           : pm10ToIndex(this.value);
-      console.log(aqi);
       return aqi;
     }
   }

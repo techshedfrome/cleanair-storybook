@@ -38,6 +38,7 @@ export default {
   },
   computed: {
     getAdvice() {
+      if (webpackHotUpdate) console.log('getting advice for aqi '+ this.aqi);
       var band = indexToAdviceFromAqi(this.aqi);
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
