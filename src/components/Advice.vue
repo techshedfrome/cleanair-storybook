@@ -34,11 +34,16 @@ export default {
       type: Boolean,
       required: true,
       default: () => false
-    }
+    },
+    isDev: {
+      type: Boolean,
+      required: false,
+      default: () => false
+    },
   },
   computed: {
     getAdvice() {
-      if (webpackHotUpdate) console.log('getting advice for aqi '+ this.aqi);
+      if (this.isDev) console.log('getting advice for aqi '+ this.aqi);
       var band = indexToAdviceFromAqi(this.aqi);
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },

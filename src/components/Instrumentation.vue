@@ -12,7 +12,7 @@
           :isDev="isDev" 
         />
         <div class="container readings">
-          <advice :device_id="device_id" :aqi="pollutionBand" :show="show" />
+          <advice :device_id="device_id" :aqi="pollutionBand" :show="show" :isDev="isDev" />
         </div>
       </section>
     </div>
