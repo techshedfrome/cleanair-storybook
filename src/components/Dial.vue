@@ -48,23 +48,28 @@ export default {
       type: Boolean,
       required: true,
       default: () => false
-    }
+    },
+    isDev: {
+      type: Boolean,
+      required: false,
+      default: () => false
+    },
   },
   computed: {
     dialClass() {
-      if (webpackHotUpdate) console.log('getting dial class for aqi '+ this.main_value);
+      if (this.isDev) console.log('getting dial class for aqi '+ this.main_value);
       var daqiClass = getColourClassForAqi(this.main_value, !this.isLive);
       return `value-badge border title ${daqiClass} large`;
     },
     pollutionBand() {
-      if (webpackHotUpdate) console.log('getting pollution band for aqi '+ this.main_value);
+      if (this.isDev) console.log('getting pollution band for aqi '+ this.main_value);
       var band = indexToPollutionBandFromAqi(
         this.isLive ? this.main_value : undefined
       );
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     isLive() {
-      if (webpackHotUpdate) console.log('checking age of reading to determin "live" status for datetime '+ this.last_seen);
+      if (this.isDev) console.log('checking age of reading to determin "live" status for datetime '+ this.last_seen);
       if (!this.last_seen) return false;
       var hours = Math.floor((new Date().getTime() - this.last_seen) / 3600000);
       return hours < 3;

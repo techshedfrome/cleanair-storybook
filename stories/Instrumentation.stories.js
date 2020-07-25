@@ -22,6 +22,7 @@ const instrumentationTemplate = `<instrumentation
                             :measure="measure" 
                             :value="value" 
                             :show="show" 
+                            :isDev="isDev" 
                             />`;
 
 addDecorator(withKnobs)
@@ -46,6 +47,9 @@ export const Default = () => ({
         show: {
             default: () => boolean('show', true)
         },
+        isDev: {
+            default: () => true
+        }
     },
     methods: actionsData,
 });

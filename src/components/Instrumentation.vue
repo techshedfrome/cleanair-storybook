@@ -9,6 +9,7 @@
           :sub_value="value"
           :sub_value_units="value_units"
           :show="show"
+          :isDev="isDev" 
         />
         <div class="container readings">
           <advice :device_id="device_id" :aqi="pollutionBand" :show="show" />
@@ -67,11 +68,16 @@ export default {
       type: Boolean,
       required: true,
       default: () => false
-    }
+    },
+    isDev: {
+      type: Boolean,
+      required: false,
+      default: () => false
+    },
   },
   computed: {
     pollutionBand() {
-      if (webpackHotUpdate) console.log('getting pollution band for '+ this.measure +' of '+ this.value);
+      if (this.isDev) console.log('getting pollution band for '+ this.measure +' of '+ this.value);
       if (this.measure !== "PM2.5" && this.measure !== "PM10") return 0;
       var aqi =
         this.measure === "PM2.5"
