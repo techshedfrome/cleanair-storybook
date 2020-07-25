@@ -4,8 +4,8 @@
       <div :class="dialClass">
         <div class="shift-down">{{ main_value }}</div>
         <div class="is-size-6 has-text-weight-bold shift-up has-text-black" >{{ sub_value }} {{sub_value_units}}</div>
-        <div class="is-size-4 has-text-weight-bold band has-text-black">{{pollutionBand}}</div>
       </div>
+      <div class="is-size-4 has-text-weight-bold band has-text-black">{{pollutionBand}}</div>
     </div>
   </transition>
 </template>
@@ -53,7 +53,13 @@ export default {
   computed: {
     dialClass() {
       var daqiClass = getColourClassForAqi(this.main_value, !this.isLive);
-      return `value-badge value-badge-large border title ${daqiClass} large`;
+      return `value-badge border title ${daqiClass} large`;
+    },
+    pollutionBand() {
+      var band = indexToPollutionBandFromAqi(
+        this.isLive ? this.main_value : undefined
+      );
+      return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     pollutionBand() {
       var band = indexToPollutionBandFromAqi(
@@ -90,6 +96,7 @@ export default {
 
 .band {
   line-height: 1em;
+  margin-top: 0.5em;
 }
 .dial {
   margin: 1em auto;
