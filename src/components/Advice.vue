@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-        <div class="AdviceBox reading-bare is-mobile has-background-warning-light">
+        <div class="advice-box reading-bare is-mobile has-background-warning-light">
           <div class="has-text-centered">
             <div>
               <div class="title is-size-6 mb-3 has-text-centered has-text-weight-semibold">
@@ -70,4 +70,12 @@ export default {
   margin: 1em auto;
   height: 13em;
 }
+
+
+
+.advice-box {
+    border: 2px solid #FBDD58;
+    border-radius: 8px;
+}
+
 </style>
