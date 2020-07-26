@@ -1,9 +1,11 @@
 <template>
   <div class="is-12-mobile is-8-desktop">
     <div class="mb-5">
-      <div class="is-size-6 has-text-weight-bold mb-0 has-text-centered has-text-black">
-        Size of dust particale
-        <i class="far fa-question-circle ml-1"></i>
+      <div
+        class="is-size-6 has-text-weight-bold mb-0 has-text-centered has-text-black"
+      >
+        Size of dust particle
+        <i class="fa fa-question-circle ml-1"></i>
       </div>
       <div
         id="readingTabs"
@@ -13,7 +15,7 @@
           <li
             id="PM25Selector"
             v-on:click="activeTab = 'PM2.5'"
-            v-bind:class="{ 'is-active': activeTab == 'PM2.5'}"
+            v-bind:class="{ 'is-active': activeTab == 'PM2.5' }"
           >
             <a>
               <span class="has-text-black has-text-weight-bold">PM 2.5</span>
@@ -46,8 +48,6 @@
 <script>
 import Instrumentation from "./Instrumentation";
 
-const PM_2_5 = "PM2.5";
-const PM_10  = "PM10";
 export default {
   name: "measurementSelector",
   components: {
@@ -85,19 +85,21 @@ export default {
       type: Boolean,
       required: false,
       default: () => false
-    },
+    }
   },
   data: () => ({
-    activeTab: "PM2.5",
+    activeTab: "PM2.5"
   }),
   computed: {
     activeValue() {
       return this.activeTab === "PM2.5" ? this.pm2_5_value : this.pm10_value;
     }
   },
-  methods: {  }
+  methods: {}
 };
 </script>
 
-<style scoped>
+<style>
+@import '../css/main.css';
+@import "../css/overrides.css";
 </style>
