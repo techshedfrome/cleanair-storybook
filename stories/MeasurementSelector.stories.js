@@ -8,12 +8,10 @@ export default {
     // Our exports that end in "Data" are not stories.
     excludeStories: /.*Data$/,
 };
-export const actionsData = {
-    onPopulate: action('instrumentation'),
-    onArchiveTask: action('onArchiveTask'),
-};
 
 const selectorTemplate = `<measurementSelector 
+                                :pm2_5_value=pm2_5_value
+                                :pm10_value=pm10_value
                             />`;
 
 addDecorator(withKnobs)
@@ -22,8 +20,17 @@ export const toStorybook = () => ({
     components: { MeasurementSelector },
     template: selectorTemplate,
     props: {
+        pm2_5_value: {
+            type: Number,
+            required: false,
+            default: () => 60.23
+        },
+        pm10_value: {
+            type: Number,
+            required: false,
+            default: () => 45.97
+        },
     },
-    methods: actionsData,
 });
 
 toStorybook.story = {
