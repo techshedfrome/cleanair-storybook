@@ -3,7 +3,7 @@
     <div id=":device_id" class="dial container has-text-centered mt-2" v-show="show">
       <div :class="dialClass">
         <div class="shift-down">{{ main_value }}</div>
-        <div class="is-size-6 has-text-weight-bold shift-up has-text-black" >{{ sub_value }} {{sub_value_units}}</div>
+        <div class="is-size-6 has-text-weight-bold shift-up has-text-black has-text-right mr-5" >{{ sub_value }} {{sub_value_units}}</div>
       </div>
       <div class="is-size-4 has-text-weight-bold band has-text-black">{{pollutionBand}}</div>
     </div>
