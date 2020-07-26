@@ -23,6 +23,10 @@ If needed, the manual command (uses [chromatic cli tools](https://www.chromatic.
 ## Publishing vue component libraries
 https://medium.com/justfrontendthings/how-to-create-and-publish-your-own-vuejs-component-library-on-npm-using-vue-cli-28e60943eed3
 
+* `vue-cli-service build --target wc --name  'src/components/*.vue'`
+* https://cli.vuejs.org/guide/build-targets.html#web-component
+
+
 
 ----------
 
