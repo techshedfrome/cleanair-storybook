@@ -23,12 +23,12 @@ export const toStorybook = () => ({
         pm2_5_value: {
             type: Number,
             required: false,
-            default: () => 60.23
+            default: () => number('PM2.5 value', 60.23)
         },
         pm10_value: {
             type: Number,
             required: false,
-            default: () => 45.97
+            default: () => number('PM10 value', 45.97)
         },
     },
 });
