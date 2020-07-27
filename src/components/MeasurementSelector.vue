@@ -4,8 +4,13 @@
       <div
         class="is-size-6 has-text-weight-bold mb-0 has-text-centered has-text-black"
       >
-        Size of dust particle
-        <i class="fa fa-question-circle ml-1"></i>
+        <span>Size of dust particle</span>
+        <span
+          class="has-tooltip-bottom has-tooltip-arrow"
+          :data-tooltip="pmDescription"
+        >
+          <font-awesome-icon :icon="icon" />
+        </span>
       </div>
       <div
         id="readingTabs"
@@ -47,12 +52,32 @@
 
 <script>
 import Instrumentation from "./Instrumentation";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+
+// Make sure you tell Font Awesome to skip auto-inserting CSS into the <head>
+config.autoAddCss = false;
 
 export default {
   name: "measurementSelector",
   components: {
-    Instrumentation
+    Instrumentation,
+    FontAwesomeIcon
   },
+  mounted() {
+    // This will only work on your root Vue component since it's using $parent
+    const { shadowRoot } = this.$parent.$options;
+    const id = "fa-styles";
+
+    if (shadowRoot && !shadowRoot.getElementById(`${id}`)) {
+      const faStyles = document.createElement("style");
+      faStyles.setAttribute("id", id);
+      faStyles.textContent = dom.css();
+      shadowRoot.appendChild(faStyles);
+    }
+  },
+
   props: {
     device: {
       type: Object,
@@ -88,11 +113,25 @@ export default {
     }
   },
   data: () => ({
-    activeTab: "PM2.5"
+    activeTab: "PM2.5",
+    icon: faQuestionCircle,
   }),
   computed: {
     activeValue() {
       return this.activeTab === "PM2.5" ? this.pm2_5_value : this.pm10_value;
+    },
+    pmDescription() {
+      var msg =  
+`Particulate Matter (PM) is how we describe fine 
+dust particles that can be harmful to our health.
+
+It's measured in µm (AKA micrometers or microns); 
+so below we're showing some of the most harmful 
+particles at PM sizes of 2.5µm and 10µm.
+
+1 Micrometer is 1 thousandth of a millimeter!
+(Human hair ranges from 17µm to 181μm)`
+      return msg
     }
   },
   methods: {}
@@ -100,6 +139,6 @@ export default {
 </script>
 
 <style>
-@import '../css/main.css';
+@import "../css/main.css";
 @import "../css/overrides.css";
 </style>
