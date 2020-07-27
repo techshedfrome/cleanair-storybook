@@ -4,10 +4,16 @@
       <div
         class="is-size-6 has-text-weight-bold mb-0 has-text-centered has-text-black"
       >
-        <span>Size of dust particle</span>
+        <span class="mr-2">Size of dust particle</span>
         <span
-          class="has-tooltip-bottom has-tooltip-arrow"
+          class="is-hidden-mobile has-tooltip-bottom has-tooltip-arrow"
           :data-tooltip="pmDescription"
+        >
+          <font-awesome-icon :icon="icon" />
+        </span>
+        <span
+          class="is-hidden-tablet has-tooltip-bottom has-tooltip-arrow"
+          :data-tooltip="pmDescriptionNarrow"
         >
           <font-awesome-icon :icon="icon" />
         </span>
@@ -132,7 +138,30 @@ particles at PM sizes of 2.5µm and 10µm.
 1 Micrometer is 1 thousandth of a millimeter!
 (Human hair ranges from 17µm to 181μm)`
       return msg
-    }
+    },
+
+    pmDescriptionNarrow() {
+      var msg =  
+`Particulate Matter (PM) 
+is how we describe fine 
+dust particles that can 
+be harmful to our 
+health.
+
+It's measured in µm 
+(AKA micrometers or 
+microns); below we're 
+showing some of the 
+most harmful particles 
+at PM sizes of 2.5µm 
+and 10µm.
+
+1µm is 1 thousandth 
+of a millimeter!
+Human hair ranges 
+from 17µm to 181μm`
+      return msg
+  },
   },
   methods: {}
 };
