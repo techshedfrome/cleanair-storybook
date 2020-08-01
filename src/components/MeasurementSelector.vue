@@ -97,10 +97,10 @@ export default {
       required: false,
       default: () => ""
     },
-    last_seen: {
-      type: Date,
+    last_seen_string: {
+      type: String,
       required: false,
-      default: () => new Date()
+      default: () => new Date().toString()
     },
     pm2_5_value: {
       type: Number,
@@ -121,8 +121,12 @@ export default {
   data: () => ({
     activeTab: "PM2.5",
     icon: faQuestionCircle,
+    last_seen: undefined,
   }),
-  computed: {
+  beforeMount(){
+    this.last_seen = new Date(this.last_seen_string);
+  },
+  computed: {      
     activeValue() {
       return this.activeTab === "PM2.5" ? this.pm2_5_value : this.pm10_value;
     },

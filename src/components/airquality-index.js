@@ -106,9 +106,9 @@ const pollutionBandAtRiskAdvice = [
 ];
 
 export function indexToAdviceFromAqi(index, atRisk) {
-    if (!index || index == "-") return '';
+    if (!index || index == "-") return '-';
     var band = indexToPollutionBandNumberFromAqi(index);
-    if (!band || band == "-") return '';
+    if (!band || band == "-") return '-';
     
     return atRisk ? pollutionBandAtRiskAdvice[band - 1] : pollutionBandAdvice[band - 1];
 }
