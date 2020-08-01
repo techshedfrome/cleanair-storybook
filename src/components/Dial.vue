@@ -3,7 +3,7 @@
     <div id=":device_id" class="dial container has-text-centered mt-2" v-show="show">
       <div :class="dialClass">
         <div class="shift-down">{{ main_value }}</div>
-        <div class="is-size-6 has-text-weight-bold shift-up has-text-black has-text-right mr-5 pr-1" >{{ sub_value }} {{sub_value_units}}</div>
+        <div class="is-size-6 has-text-weight-bold shift-up has-text-black has-text-right right-align" >{{ presentationSubValue }} {{sub_value_units}}</div>
       </div>
       <div class="is-size-4 has-text-weight-bold band has-text-black">{{pollutionBand}}</div>
     </div>
@@ -32,12 +32,12 @@ export default {
     main_value: {
       type: Number,
       required: true,
-      default: () => 1
+      default: () => 0
     },
     sub_value: {
       type: Number,
       required: true,
-      default: () => 14.32
+      default: () => 0.00
     },
     sub_value_units: {
       type: String,
@@ -56,6 +56,9 @@ export default {
     },
   },
   computed: {
+    presentationSubValue() {
+      return parseFloat(this.sub_value)?.toFixed(2) ?? "0.00";
+    },
     dialClass() {
       if (this.isDev) console.log('getting dial class for aqi '+ this.main_value);
       var daqiClass = getColourClassForAqi(this.main_value, !this.isLive);
@@ -103,5 +106,8 @@ export default {
 .dial {
   margin: 1em auto;
   height: 13em;
+}
+.right-align {
+  margin-right: 1.6em
 }
 </style>
