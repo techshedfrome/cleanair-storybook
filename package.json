@@ -13,6 +13,7 @@
     "export": "vue-cli-service build --target wc --dest export --name device 'src/components/*.vue'"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vuex": "^3.5.1"

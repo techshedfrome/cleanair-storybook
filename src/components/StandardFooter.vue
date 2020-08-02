@@ -18,10 +18,10 @@
             <p class="has-text-weight-semibold">Follow us on..</p>
             <p class="no-underline-links">
               <a href="https://www.facebook.com/Clean-Air-Frome-113809790395405'">
-                <i class="fab fa-facebook-square is-size-3 has-text-dark"></i>
+                <font-awesome-icon :icon="facebookIcon"  class="is-size-3 has-text-dark mx-1" />
               </a>
               <a href="https://cleanairinfrome.blogspot.com/">
-                <i class="fab fa-blogger ml-3 is-size-3 has-text-dark"></i>
+                <font-awesome-icon :icon="bloggerIcon"  class="is-size-3 has-text-dark mx-1" />
               </a>
             </p>
             <p></p>
@@ -68,9 +68,27 @@
 </template>
 
 <script>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import { faFacebookSquare, faBlogger } from "@fortawesome/fontawesome-free-brands";
+
 export default {
   name: "standardFooter",
-  components: {},
+  components: {
+    FontAwesomeIcon,
+  },
+  mounted() {
+    // This will only work on your root Vue component since it's using $parent
+    const { shadowRoot } = this.$parent.$options;
+    const id = "fa-styles";
+
+    if (shadowRoot && !shadowRoot.getElementById(`${id}`)) {
+      const faStyles = document.createElement("style");
+      faStyles.setAttribute("id", id);
+      faStyles.textContent = dom.css();
+      shadowRoot.appendChild(faStyles);
+    }
+  },
   props: {
     council_email: {
       type: String,
@@ -88,11 +106,10 @@ export default {
       default: () => ""
     }
   },
-  data() {
-    return {
-      publicPath: "." //process.env.BASE_URL
-    };
-  },
+  data: () => ({
+        facebookIcon: faFacebookSquare,
+        bloggerIcon : faBlogger
+  }),
   computed: {}
 };
 </script>
