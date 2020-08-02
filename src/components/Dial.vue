@@ -1,9 +1,15 @@
 <template>
   <transition name="fade">
-    <div id=":device_id" class="dial container has-text-centered mt-2" v-show="show">
-      <div :class="dialClass">
+    <div 
+      id=":device_id" class="dial container has-text-centered mt-2" v-show="show"
+    >
+      <div 
+        :class="dialClass"
+      >
         <div class="shift-down">{{ main_value }}</div>
-        <div class="is-size-6 has-text-weight-bold shift-up has-text-black has-text-right right-align" >{{ presentationSubValue }} {{sub_value_units}}</div>
+        <div
+          class="is-size-6 has-text-weight-bold shift-up has-text-black has-text-right right-align"
+        >{{ presentationSubValue }} {{sub_value_units}}</div>
       </div>
       <div class="is-size-4 has-text-weight-bold band has-text-black">{{pollutionBand}}</div>
     </div>
@@ -31,13 +37,12 @@ export default {
     },
     main_value: {
       type: Number,
-      required: true,
-      default: () => 0
+      required: true
     },
     sub_value: {
       type: Number,
       required: true,
-      default: () => 0.00
+      default: () => 0.0
     },
     sub_value_units: {
       type: String,
@@ -53,26 +58,32 @@ export default {
       type: Boolean,
       required: false,
       default: () => false
-    },
+    }
   },
   computed: {
     presentationSubValue() {
-      return parseFloat(this.sub_value)?.toFixed(2) ?? "0.00";
+      return this.sub_value?.toFixed(2) ?? "0.00";
     },
     dialClass() {
-      if (this.isDev) console.log('getting dial class for aqi '+ this.main_value);
+      if (this.isDev)
+        console.log("getting dial class for aqi " + this.main_value);
       var daqiClass = getColourClassForAqi(this.main_value, !this.isLive);
       return `value-badge border title ${daqiClass} large`;
     },
     pollutionBand() {
-      if (this.isDev) console.log('getting pollution band for aqi '+ this.main_value);
+      if (this.isDev)
+        console.log("getting pollution band for aqi " + this.main_value);
       var band = indexToPollutionBandFromAqi(
         this.isLive ? this.main_value : undefined
       );
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     isLive() {
-      if (this.isDev) console.log('checking age of reading to determin "live" status for datetime '+ this.last_seen);
+      if (this.isDev)
+        console.log(
+          'checking age of reading to determin "live" status for datetime ' +
+            this.last_seen
+        );
       if (!this.last_seen) return false;
       var hours = Math.floor((new Date().getTime() - this.last_seen) / 3600000);
       return hours < 3;
@@ -108,6 +119,6 @@ export default {
   height: 13em;
 }
 .right-align {
-  margin-right: 1.6em
+  margin-right: 1.6em;
 }
 </style>
