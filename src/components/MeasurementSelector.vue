@@ -172,6 +172,4 @@ from 17µm to 181μm`
 </script>
 
 <style>
-@import "../css/main.css";
-@import "../css/overrides.css";
 </style>

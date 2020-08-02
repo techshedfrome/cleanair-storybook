@@ -6,9 +6,10 @@ if (process.env.NODE_ENV === "production") {
     // plugins.push(
     //     purgecss({
     //         content: [
-    //             "./layouts/**/*.vue",
-    //             "./components/**/*.vue",
-    //             "./pages/**/*.vue"
+    //             "./src/layouts/**/*.vue",
+    //             "./src/components/**/*.vue",
+    //             "./src/pages/**/*.vue",
+    //             "./src/pages/**/*.js"
     //         ],
     //         whitelist: [
     //             "html", 
