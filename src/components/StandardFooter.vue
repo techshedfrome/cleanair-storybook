@@ -37,14 +37,14 @@
                   <h3 class="has-text-weight-semibold">Funded by</h3>
                   <br />
                   <a href="https://www.frometowncouncil.gov.uk/">
-                    <img src="/assets/FTC_logo.png" width="160px" />
+                    <img src="assets/FTC_logo.png" width="160px" />
                   </a>
                 </div>
                 <div class="column">
                   <h3 class="has-text-weight-semibold">Developed by</h3>
                   <br />
                   <a href="https://techshedfrome.org/">
-                    <img src="/assets/TechShed_Logo_Ani_optimised.gif" width="190px" />
+                    <img src="assets/TechShed_Logo_Ani_optimised.gif" width="190px" />
                   </a>
                 </div>
               </div>
@@ -90,9 +90,12 @@ export default {
   },
   data() {
     return {
-      publicPath: "."//process.env.BASE_URL
+      publicPath: "." //process.env.BASE_URL
     };
   },
   computed: {}
 };
 </script>
+<style>
+@import "../css/main.css";
+</style>
