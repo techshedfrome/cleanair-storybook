@@ -69,7 +69,7 @@
 
 <script>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import { dom } from "@fortawesome/fontawesome-svg-core";
 import { faFacebookSquare, faBlogger } from "@fortawesome/fontawesome-free-brands";
 
 export default {
