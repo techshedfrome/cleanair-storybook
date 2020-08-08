@@ -66,32 +66,13 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 config.autoAddCss = false;
 
 export default {
-  name: "measurementSelector",
+  name: "SensorLiveView",
   components: {
     Instrumentation,
     FontAwesomeIcon
   },
-  mounted() {
-    // This will only work on your root Vue component since it's using $parent
-    const { shadowRoot } = this.$parent.$options;
-    const id = "fa-styles";
-
-    if (shadowRoot && !shadowRoot.getElementById(`${id}`)) {
-      const faStyles = document.createElement("style");
-      faStyles.setAttribute("id", id);
-      faStyles.textContent = dom.css();
-      shadowRoot.appendChild(faStyles);
-    }
-  },
 
   props: {
-    device: {
-      type: Object,
-      required: false,
-      default: () => ({
-        device_id: ""
-      })
-    },
     device_id: {
       type: String,
       required: false,

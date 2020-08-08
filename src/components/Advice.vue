@@ -26,7 +26,7 @@ export default {
       default: () => undefined
     },
     aqi: {
-      type: Number,
+      type: String,
       required: true,
       default: () => 1
     },
