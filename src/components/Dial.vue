@@ -36,7 +36,7 @@ export default {
       default: () => undefined
     },
     main_value: {
-      type: Number,
+      type: String,
       required: true
     },
     sub_value: {
@@ -62,7 +62,11 @@ export default {
   },
   computed: {
     presentationSubValue() {
-      return this.sub_value?.toFixed(2) ?? "0.00";
+      var displayAs = Number.parseFloat(this.sub_value);
+      console.log(displayAs);
+      if(displayAs) displayAs = displayAs.toFixed(2)
+      console.log(displayAs);
+      return displayAs ?? "-.--";
     },
     dialClass() {
       if (this.isDev)

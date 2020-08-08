@@ -2,14 +2,14 @@
 import { action } from '@storybook/addon-actions';
 import { addDecorator } from '@storybook/vue'
 import { withKnobs, number, boolean } from '@storybook/addon-knobs';
-import MeasurementSelector from '../src/components/MeasurementSelector';
+import SensorLiveView from '../src/components/SensorLiveView';
 export default {
-    title: 'MeasurementSelector',
+    title: 'SensorLiveView',
     // Our exports that end in "Data" are not stories.
     excludeStories: /.*Data$/,
 };
 
-const selectorTemplate = `<measurementSelector 
+const selectorTemplate = `<sensorLiveView 
                                 :pm2_5_value=pm2_5_value
                                 :pm10_value=pm10_value
                             />`;
@@ -17,7 +17,7 @@ const selectorTemplate = `<measurementSelector
 addDecorator(withKnobs)
 
 export const toStorybook = () => ({
-    components: { MeasurementSelector },
+    components: { SensorLiveView },
     template: selectorTemplate,
     props: {
         pm2_5_value: {
@@ -34,5 +34,5 @@ export const toStorybook = () => ({
 });
 
 toStorybook.story = {
-    name: 'Default Measurement Selector State',
+    name: 'Default Live View State',
 }
