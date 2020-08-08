@@ -16,6 +16,7 @@
               <a>
                 <span class="icon is-small has-text-black">
                   <i class="far fa-clock"></i>
+                  <font-awesome-icon :icon="clockIcon" />
                 </span>
                 <span class="has-text-black has-text-weight-bold">Last hour</span>
               </a>
@@ -28,6 +29,7 @@
               <a>
                 <span class="icon is-small has-text-black">
                   <i class="far fa-calendar-alt"></i>
+                  <font-awesome-icon :icon="calendarIcon" />
                 </span>
                 <span class="has-text-black has-text-weight-bold">Over time</span>
               </a>
@@ -55,16 +57,15 @@
 </template>
 
 
-<script lang="ts">
+<script>
 /*
  component containing different sensor views, with a view selector tab bar/toggle at the top
 */
 import SensorLiveView from "./SensorLiveView";
 import SensorHistory from "./SensorHistory";
 import DidYouKnow from "./DidYouKnow";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 
 // Make sure you tell Font Awesome to skip auto-inserting CSS into the <head>
 config.autoAddCss = false;
@@ -74,8 +75,7 @@ export default {
   components: {
     SensorLiveView,
     SensorHistory,
-    DidYouKnow,
-    FontAwesomeIcon
+    DidYouKnow
   },
   mounted() {
     // This will only work on your root Vue component since it's using $parent
@@ -118,7 +118,8 @@ export default {
   },
   data: () => ({
     activeTab: "now",
-    icon: faQuestionCircle
+    calendarIcon: faCalendarAlt,
+    clockIcon: faClock,
   }),
   computed: {}
 };
