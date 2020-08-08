@@ -2,7 +2,7 @@
   <div id="subjectTabs" class="container">
     <div class="columns is-centered">
       <div class="column is-12-mobile is-8-desktop">
-        <div class="title has-text-centered" :id="`detail-${device_id}-title`">{{name}}</div>
+        <div :class="`title has-text-centered detail-${device_id}-title`">{{name}}</div>
         <div
           class="pt-1 tabs is-toggle is-toggle-rounded is-centered has-text-black has-text-weight-medium"
           id="subjectTabs"
@@ -60,7 +60,7 @@ import SensorHistory from "./SensorHistory";
 import DidYouKnow from "./DidYouKnow";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faClock } from "@fortawesome/free-regular-svg-icons";
 
 // Make sure you tell Font Awesome to skip auto-inserting CSS into the <head>
 config.autoAddCss = false;
