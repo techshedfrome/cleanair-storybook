@@ -14,10 +14,7 @@
               v-bind:class="{ 'is-active': activeTab == 'now' }"
             >
               <a>
-                <span class="icon is-small has-text-black">
-                  <i class="far fa-clock"></i>
-                  <font-awesome-icon :icon="clockIcon" />
-                </span>
+                <font-awesome-icon :icon="clockIcon" class="icon is-small has-text-black" />
                 <span class="has-text-black has-text-weight-bold">Last hour</span>
               </a>
             </li>
@@ -27,10 +24,7 @@
               v-bind:class="{ 'is-active': activeTab == 'history' }"
             >
               <a>
-                <span class="icon is-small has-text-black">
-                  <i class="far fa-calendar-alt"></i>
-                  <font-awesome-icon :icon="calendarIcon" />
-                </span>
+                <font-awesome-icon :icon="calendarIcon" class="icon is-small has-text-black" />
                 <span class="has-text-black has-text-weight-bold">Over time</span>
               </a>
             </li>
@@ -64,6 +58,7 @@
 import SensorLiveView from "./SensorLiveView";
 import SensorHistory from "./SensorHistory";
 import DidYouKnow from "./DidYouKnow";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 
@@ -75,7 +70,8 @@ export default {
   components: {
     SensorLiveView,
     SensorHistory,
-    DidYouKnow
+    DidYouKnow,
+    FontAwesomeIcon
   },
   mounted() {
     // This will only work on your root Vue component since it's using $parent
