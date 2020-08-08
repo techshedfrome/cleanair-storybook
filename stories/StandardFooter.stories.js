@@ -1,7 +1,7 @@
 // src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
 import { addDecorator } from '@storybook/vue'
-import { withKnobs, number, boolean } from '@storybook/addon-knobs';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 import StandardFooter from '../src/components/StandardFooter';
 export default {
     title: 'StandardFooter',
@@ -24,17 +24,17 @@ export const toStorybook = () => ({
         council_email: {
             type: String,
             required: false,
-            default: () => number('council_email', 'council@example.com')
+            default: () => text('council_email', 'council@example.com')
         },
         clean_air_email: {
             type: String,
             required: false,
-            default: () => number('clean_air_email', 'cleanair@example.com')
+            default: () => text('clean_air_email', 'cleanair@example.com')
         },
         techshed_email: {
             type: String,
             required: false,
-            default: () => number('techshed_email', 'techshed@example.com')
+            default: () => text('techshed_email', 'techshed@example.com')
         },
     },
 });

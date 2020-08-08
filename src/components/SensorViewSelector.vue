@@ -2,7 +2,7 @@
   <div id="subjectTabs" class="container">
     <div class="columns is-centered">
       <div class="column is-12-mobile is-8-desktop">
-        <div class="title has-text-centered">Sensor Detail</div>
+        <div class="title has-text-centered">{{name}}</div>
         <div
           class="pt-1 tabs is-toggle is-toggle-rounded is-centered has-text-black has-text-weight-medium"
           id="subjectTabs"
@@ -90,6 +90,11 @@ export default {
       type: String,
       required: false,
       default: () => ""
+    },
+    name: {
+      type: String,
+      required: false,
+      default: () => "Sensor Detail"
     },
     last_seen_string: {
       type: String,
