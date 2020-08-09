@@ -5,7 +5,7 @@
         <dial
           :device_id="device_id"
           :last_seen="last_seen"
-          :main_value="pollutionBand"
+          :main_value="`${pollutionBand}`"
           :sub_value="value"
           :sub_value_units="value_units"
           :show="show"
