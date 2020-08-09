@@ -64,7 +64,12 @@ export default {
     presentationSubValue() {
       var displayAs = Number.parseFloat(this.sub_value);
       if(displayAs) displayAs = displayAs.toFixed(2)
-      if(!displayAs || displayAs == -Infinity || displayAs == Infinity) displayAs ==  "-.--"
+      console.log(displayAs);
+      if(!displayAs 
+        || displayAs == -Infinity 
+        || displayAs == Infinity
+        ) displayAs =  "-.--"
+      console.log(displayAs);
       return displayAs;
     },
     dialClass() {
