@@ -1,7 +1,7 @@
 // src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
 import { addDecorator } from '@storybook/vue'
-import { withKnobs, number, boolean } from '@storybook/addon-knobs';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 import Dial from '../src/components/Dial';
 export default {
     title: 'Dial',
@@ -36,10 +36,10 @@ export const toStorybook = () => ({
             default: () => boolean('old data', false) ? new Date('2020-01-01') : new Date()
         },
         main_value: {
-            default: () => number('main value', 3)
+            default: () => text('main value', '3')
         },
         sub_value: {
-            default: () => number('sub value', 14.32)
+            default: () => text('sub value', 14.32)
         },
         show: {
             default: () => boolean('show', true)
