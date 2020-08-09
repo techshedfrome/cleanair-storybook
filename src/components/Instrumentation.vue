@@ -78,6 +78,10 @@ export default {
   computed: {
     pollutionBand() {
       if (this.isDev) console.log('getting pollution band for '+ this.measure +' of '+ this.value);
+      if(!this.value 
+        || this.value == -Infinity 
+        || this.value == Infinity
+        ) return "-"
       if (this.measure !== "PM2.5" && this.measure !== "PM10") return 0;
       var aqi =
         this.measure === "PM2.5"
