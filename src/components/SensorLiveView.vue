@@ -59,7 +59,7 @@
 <script>
 import Instrumentation from "./Instrumentation";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import { config } from "@fortawesome/fontawesome-svg-core";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 // Make sure you tell Font Awesome to skip auto-inserting CSS into the <head>

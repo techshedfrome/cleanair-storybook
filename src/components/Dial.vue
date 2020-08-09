@@ -84,6 +84,7 @@ export default {
       var band = indexToPollutionBandFromAqi(
         this.isLive ? this.main_value : undefined
       );
+      if(this.presentationSubValue === "-.--") return "Data Unavailable"
       return band === "Coming Soon" ? "Sensor Offline" : band;
     },
     isLive() {

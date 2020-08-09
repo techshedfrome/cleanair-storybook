@@ -42,6 +42,56 @@ Default.story = {
 }
 
 
+export const Missingpm10 = () => ({
+    components: { SensorViewSelector },
+    template: viewSelectorTemplate,
+    props: {
+        pm2_5_value: {
+            type: Number,
+            required: false,
+            default: () => 13
+        },
+        pm10_value: {
+            type: Number,
+            required: false,
+            default: () => -Infinity
+        },
+        name: {
+            type: String,
+            required: false,
+            default: () => text('Name', 'Sensor Name 1')
+        },
+    },
+})
+Missingpm10.story = {
+    name: 'Missing PM10 data'
+}
+
+export const Missingpm25 = () => ({
+    components: { SensorViewSelector },
+    template: viewSelectorTemplate,
+    props: {
+        pm2_5_value: {
+            type: Number,
+            required: false,
+            default: () => -Infinity
+        },
+        pm10_value: {
+            type: Number,
+            required: false,
+            default: () => 6
+        },
+        name: {
+            type: String,
+            required: false,
+            default: () => text('Name', 'Sensor Name 1')
+        },
+    },
+})
+Missingpm25.story = {
+    name: 'Missing PM 2.5 data'
+}
+
 export const Missingdata = () => ({
     components: { SensorViewSelector },
     template: viewSelectorTemplate,
@@ -64,7 +114,7 @@ export const Missingdata = () => ({
     },
 })
 Missingdata.story = {
-    name: 'missing data'
+    name: 'Missing all data'
 }
 
 // export const WithMissingData = () => ({
