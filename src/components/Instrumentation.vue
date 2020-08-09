@@ -83,7 +83,7 @@ export default {
         this.measure === "PM2.5"
           ? pm25ToIndex(this.value)
           : pm10ToIndex(this.value);
-      return aqi;
+      return `${aqi}`;
     }
   }
 };
