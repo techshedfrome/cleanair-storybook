@@ -8,15 +8,15 @@ export default {
     excludeStories: /.*Data$/,
 };
 
-const viewSelectorTemplate = `<sensorViewSelector 
+const viewSelectorTemplate = `<sensor-view-selector  
                                 :pm2_5_value=pm2_5_value
                                 :pm10_value=pm10_value
                                 :name=name
                             />`;
 
-addDecorator(withKnobs)
+// addDecorator(withKnobs)
 
-export const toStorybook = () => ({
+export const Default = () => ({
     components: { SensorViewSelector },
     template: viewSelectorTemplate,
     props: {
@@ -36,8 +36,89 @@ export const toStorybook = () => ({
             default: () => text('Name', 'Sensor Name 1')
         },
     },
-});
-
-toStorybook.story = {
-    name: 'Default sensor view selector',
+})
+Default.story = {
+    name: 'valid data'
 }
+
+
+export const Missingdata = () => ({
+    components: { SensorViewSelector },
+    template: viewSelectorTemplate,
+    props: {
+        pm2_5_value: {
+            type: Number,
+            required: false,
+            default: () => -Infinity
+        },
+        pm10_value: {
+            type: Number,
+            required: false,
+            default: () => -Infinity
+        },
+        name: {
+            type: String,
+            required: false,
+            default: () => text('Name', 'Sensor Name 1')
+        },
+    },
+})
+Missingdata.story = {
+    name: 'missing data'
+}
+
+// export const WithMissingData = () => ({
+//     components: { SensorViewSelector },
+//     template: viewSelectorTemplate,
+//     props: {
+//         pm2_5_value: {
+//             type: Number,
+//             required: false,
+//             default: () => number('PM2.5 value', 60.23)
+//         },
+//         pm10_value: {
+//             type: Number,
+//             required: false,
+//             default: () => number('PM10 value', 45.97)
+//         },
+//         name: {
+//             type: String,
+//             required: false,
+//             default: () => text('Name', 'Sensor Name 1')
+//         },
+//     },
+// })
+// WithMissingData.story = {
+//     name: 'missing data sensor view selector'
+// }
+// Default.story = {
+//     name: 'Example data'
+// }
+
+
+// DefaultData.story = {
+//     parameters: {
+//         props: {
+//             pm2_5_value: {
+//                 type: Number,
+//                 required: false,
+//                 default: () => number('PM2.5 value', 60.23)
+//             },
+//             pm10_value: {
+//                 type: Number,
+//                 required: false,
+//                 default: () => number('PM10 value', 45.97)
+//             },
+//             name: {
+//                 type: String,
+//                 required: false,
+//                 default: () => text('Name', 'Sensor Name 1')
+//             },
+//         },
+//     },
+// };
+
+
+// toStorybook.story = {
+//     name: 'Default sensor view selector',
+// }
