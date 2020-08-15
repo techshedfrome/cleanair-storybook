@@ -1,20 +1,19 @@
-import { action } from '@storybook/addon-actions';
-import {  number, boolean } from '@storybook/addon-knobs';
 import SensorHistory from '../src/components/SensorHistory';
-export default {
-    title: 'SensorHistory',
-    // Our exports that end in "Data" are not stories.
-    excludeStories: /.*Data$/,
-};
+export default { title: 'SensorHistory' };
 
 const historyTemplate = `<sensorHistory 
                             />`;
+var init = () => {
+    var def = (args) => ({
+        components: { SensorHistory },
+        template: historyTemplate,
+        props: { },
+    });
+    def.argTypes = {
+    };
+    return def;
+};
 
-export const toStorybook = () => ({
-    components: { SensorHistory },
-    template: historyTemplate,
-    props: {
-    },
-});
-
-toStorybook.storyName = 'Default sensor history';
+export const DefaultSensorHistory = init();
+DefaultSensorHistory.args = {
+};

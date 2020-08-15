@@ -1,32 +1,25 @@
-import { action } from '@storybook/addon-actions';
-import { number, boolean } from '@storybook/addon-knobs';
 import SensorLiveView from '../src/components/SensorLiveView';
-export default {
-    title: 'SensorLiveView',
-    // Our exports that end in "Data" are not stories.
-    excludeStories: /.*Data$/,
-};
+export default {    title: 'SensorLiveView',};
 
 const selectorTemplate = `<sensorLiveView 
                                 :pm2_5_value=pm2_5_value
                                 :pm10_value=pm10_value
                             />`;
+var init = () => {
+    var def = (args) => ({
+        components: { SensorLiveView },
+        template: selectorTemplate,
+        props: { pm2_5_value: '', pm10_value: '' },
+    });
+    def.argTypes = {
+        pm2_5_value: { control: 'number' },
+        pm10_value: { control: 'number' },
+    };
+    return def;
+};
 
-export const toStorybook = () => ({
-    components: { SensorLiveView },
-    template: selectorTemplate,
-    props: {
-        pm2_5_value: {
-            type: Number,
-            required: false,
-            default: () => number('PM2.5 value', 60.23)
-        },
-        pm10_value: {
-            type: Number,
-            required: false,
-            default: () => number('PM10 value', 45.97)
-        },
-    },
-});
-
-toStorybook.storyName = 'Default Live View State';
+export const DefaultLiveView = init();
+DefaultLiveView.args = {
+    pm2_5_value: 60.23,
+    pm10_value: 45.97,
+};
