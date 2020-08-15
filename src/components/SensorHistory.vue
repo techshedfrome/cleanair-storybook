@@ -11,6 +11,8 @@
 /*
 
 potential alternative visualisations:
+  Area under line - exposure?  (might be hard to read with outliers)
+    Show outlier differently?
   number of minutes in each band
   max of contiguous time in each band
   over period, stacked percentage chart of each band
