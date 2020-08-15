@@ -1,18 +1,5 @@
-// src/components/Task.stories.js
-import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 import Dial from '../src/components/Dial';
-export default {
-    title: 'Dial',
-    // Our exports that end in "Data" are not stories.
-    excludeStories: /.*Data$/,
-};
-export const actionsData = {
-    onPopulate: action('instrumentation'),
-    onArchiveTask: action('onArchiveTask'),
-};
-
+export default { title: 'Dial' };
 const dialTemplate = `<dial 
                             :device_id="device_id" 
                             :last_seen="last_seen" 
@@ -22,35 +9,33 @@ const dialTemplate = `<dial
                             :isDev="isDev" 
                             />`;
 
-addDecorator(withKnobs)
+var init = () => {
+    var def = (args) => ({
+        components: { Dial },
+        template: dialTemplate,
+        props: {
+            device_id: null, last_seen: null, 
+            main_value: null, sub_value: null, 
+            show: null, isDev: null
+        },
+    });
+    def.argTypes = {
+        device_id: { control: 'text' },
+        last_seen: { control: 'date' },
+        main_value: { control: 'text' },
+        sub_value: { control: 'number' },
+        show: { control: 'boolean' },
+        isDev: { control: 'boolean' }
+    };
+    return def;
+};
 
-export const toStorybook = () => ({
-    components: { Dial },
-    template: dialTemplate,
-    props: {
-
-        device_id: {
-            default: () => '1'
-        },
-        last_seen: {
-            default: () => boolean('old data', false) ? new Date('2020-01-01') : new Date()
-        },
-        main_value: {
-            default: () => text('main value', '3')
-        },
-        sub_value: {
-            default: () => text('sub value', 14.32)
-        },
-        show: {
-            default: () => boolean('show', true)
-        },
-        isDev: {
-            default: () => true
-        },
-    },
-    methods: actionsData,
-});
-
-toStorybook.story = {
-    name: 'Default Dial State',
-}
+export const ExampleDialState = init();
+ExampleDialState.args = {
+    device_id: '1',
+    last_seen: new Date(),
+    main_value: '3',
+    sub_value: 14.32,
+    show: true,
+    isDev: true
+};
