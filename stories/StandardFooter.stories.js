@@ -1,7 +1,5 @@
-// src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, text, boolean } from '@storybook/addon-knobs';
+import {  text, boolean } from '@storybook/addon-knobs';
 import StandardFooter from '../src/components/StandardFooter';
 export default {
     title: 'StandardFooter',
@@ -15,7 +13,7 @@ const footerTemplate = `<standardFooter
                                 :techshed_email=techshed_email
                             />`;
 
-addDecorator(withKnobs)
+// addDecorator(withKnobs)
 
 export const toStorybook = () => ({
     components: { StandardFooter },

@@ -1,7 +1,5 @@
-// src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, text, number, boolean } from '@storybook/addon-knobs';
+import { text, number, boolean } from '@storybook/addon-knobs';
 import Instrumentation from '../src/components/Instrumentation';
 export default {
     title: 'Instrumentation',
@@ -24,8 +22,6 @@ const instrumentationTemplate = `<instrumentation
                             :show="show" 
                             :isDev="isDev" 
                             />`;
-
-addDecorator(withKnobs)
 
 // default state
 export const Default = () => ({

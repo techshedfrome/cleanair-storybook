@@ -1,7 +1,5 @@
-// src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, number, boolean } from '@storybook/addon-knobs';
+import { number, boolean } from '@storybook/addon-knobs';
 import SensorLiveView from '../src/components/SensorLiveView';
 export default {
     title: 'SensorLiveView',
@@ -13,8 +11,6 @@ const selectorTemplate = `<sensorLiveView
                                 :pm2_5_value=pm2_5_value
                                 :pm10_value=pm10_value
                             />`;
-
-addDecorator(withKnobs)
 
 export const toStorybook = () => ({
     components: { SensorLiveView },
