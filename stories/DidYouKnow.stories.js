@@ -20,6 +20,4 @@ export const toStorybook = () => ({
     },
 });
 
-toStorybook.story = {
-    name: 'Default "DidYouKnow"',
-}
+toStorybook.storyName = 'Default "DidYouKnow"';
