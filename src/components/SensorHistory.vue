@@ -1,148 +1,103 @@
 
 <template>
-  <div id="OverTime" class="tab-content section has-text-centered">Coming Soon: view data over time
-
-        <div id="arc" />
-
+  <div id="OverTime" class="tab-content section has-text-centered">
+    Coming Soon: view data over time (placeholder data)
+    <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
   </div>
 </template>
 
 <script>
+import { D3LineChart } from "vue-d3-charts";
+//https://saigesp.github.io/vue-d3-charts/#/linechart 
+//  - doesn't appear to allow me to vary point colour by value,
+//    but might be able to mix standard D3 stuff with what this component wrapps up......
+
 /*
-
-potential alternative visualisations:
-  Area under line - exposure?  (might be hard to read with outliers)
-    Show outlier differently?
-  number of minutes in each band
-  max of contiguous time in each band
-  over period, stacked percentage chart of each band
-
-  exploration:
-    correlation - pick specific time windows and filter visualisations to that
-      enables estimation of personal exposure based on time spent in area
-
-    comparison between sensors in town
-      add as multiple series to chart
-
-
-
-TODO: Graphing view - likely powered by D3.js
-
-initial example from: https://alligator.io/vuejs/visualization-vue-d3/
-
-https://vuejsexamples.com/tag/echarts/
-  https://saigesp.github.io/vue-d3-charts/#/
-  https://vuejsexamples.com/a-simple-and-lightweight-vue-component-for-making-charts/
-
-https://vuejsexamples.com/simple-charts-build-with-svg-without-external-deps/
-
-https://vuejsexamples.com/vue-js-component-for-apexcharts/
-  https://apexcharts.com/
-
-https://vuejsexamples.com/reactive-vue-js-wrapper-for-google-charts-lib/
-
-https://vuejsexamples.com/a-simple-wrapper-around-frappe-charts-for-vuejs/
-
-https://vuejsexamples.com/built-upon-echarts-component-for-vue-js-2/
-  https://ecomfe.github.io/vue-echarts/demo/
-
-https://vuejsexamples.com/create-beautiful-javascript-charts-with-one-line-of-vue/
-  https://chartkick.com/vue
-
-https://vuejsexamples.com/a-very-simple-vue-wrapper-for-chart/
-https://vuejsexamples.com/easy-and-beautiful-charts-with-chart-js-and-vue-js/
-
-https://vuejsexamples.com/simple-elegant-spark-lines-for-vue-js/
-  https://cinwell.com/vue-trend/
-
-https://vuejsexamples.com/a-component-of-chartist-implement-by-vuejs-2-0/
-
-https://vuejsexamples.com/simple-and-elegant-spark-bars-for-vue-js/
-
-https://vuejsexamples.com/echarts-with-vue2-0/
-  https://translate.google.co.uk/translate?um=1&ie=UTF-8&hl=en&client=tw-ob&sl=zh-CN&tl=en&u=https%3A%2F%2Fgithub.com%2FSimonZhangITer%2FDataVisualization
-
+custom D3 (with reactive binding):
+  https://medium.com/tyrone-tudehope/composing-d3-visualizations-with-vue-js-c65084ccb686
+  https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f
+  https://www.sitepoint.com/vue-d3-data-visualization-intro/
+  https://medium.com/swlh/modular-data-visualizations-with-vue-js-and-d3-87b37392a589
 */
-import * as d3 from "d3";
 export default {
   name: "SensorHistory",
-  components: {},
+  components: {
+    D3LineChart
+  },
   data() {
     return {
-      gdp: [
-        { country: "USA", value: 20.5 },
-        { country: "China", value: 13.4 },
-        { country: "Germany", value: 4.0 },
-        { country: "Japan", value: 4.9 },
-        { country: "France", value: 2.8 }
-      ]
+      chart_data: [
+        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T00:00'},
+        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T01:00'},
+        {pm2_5:  0.38, pm10:  1.78, date: '2020-01-01T02:00'},
+        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T03:00'},
+        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T04:00'},
+        {pm2_5:  0.38, pm10:  1.78, date: '2020-01-01T05:00'},
+        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T06:00'},
+        {pm2_5:  9.38, pm10:  4.78, date: '2020-01-01T07:00'},
+        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T08:00'},
+        {pm2_5:  0.38, pm10:  2.07, date: '2020-01-01T09:00'},
+        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T10:00'},
+        {pm2_5:  9.38, pm10:  4.78, date: '2020-01-01T11:00'},
+        {pm2_5: 18.32, pm10: 13.92, date: '2020-01-01T12:00'},
+        {pm2_5:  0.92, pm10:  2.43, date: '2020-01-01T13:00'},
+        {pm2_5:  4.79, pm10:  3.29, date: '2020-01-01T14:00'},
+        {pm2_5:  5.76, pm10:  2.33, date: '2020-01-01T15:00'},
+        {pm2_5:  5.24, pm10:  3.25, date: '2020-01-01T16:00'},
+        {pm2_5:  6.48, pm10:  4.56, date: '2020-01-01T17:00'},
+        {pm2_5: 28.47, pm10: 23.46, date: '2020-01-01T18:00'},
+        {pm2_5:  2.00, pm10:  4.38, date: '2020-01-01T19:00'},
+        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T20:00'},
+        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T21:00'},
+        {pm2_5:  0.38, pm10:  1.78, date: '2020-01-01T22:00'},
+        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T23:00'},
+      ],
+      chart_config: {
+        date: {
+          key: "date",
+          inputFormat : "%Y-%m-%dT%H:%M",
+          outputFormat: "%H:%M"
+        },
+        values: ['pm2_5', 'pm10'],
+        axis: {
+          yTitle: false,
+          xTitle: false,
+          yFormat: ".0f",
+          xFormat: "%Y-%m-%d %H:%M",
+          yTicks: 5,
+          xTicks: 3
+        },
+        color: {
+          key: false,
+          keys: false,
+          scheme: 'schemeCategory10',
+          current: "#1f77b4",
+          default: "#AAA",
+          axis: "#000"
+        },
+        curve: "curveCatmullRom",
+        margin: {
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 40
+        },
+        points: {
+          visibleSize: 3,
+          hoverSize: 6
+        },
+        tooltip: {
+          labels: ['PM2.5','PM10']
+        },
+        transition: {
+          duration: 350,
+          ease: "easeLinear"
+        }
+      }
     };
   },
-  mounted() {
-    this.generateArc();
-  },
+  mounted() {},
   methods: {
-    generateArc() {
-      const w = 500;
-      const h = 500;
-
-      const svg = d3
-        .select("#arc")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
-
-      const sortedGDP = this.gdp.sort((a, b) => (a.value > b.value ? 1 : -1));
-      const color = d3.scaleOrdinal(d3.schemeDark2);
-
-      const max_gdp = d3.max(sortedGDP, o => o.value);
-
-      const angleScale = d3
-        .scaleLinear()
-        .domain([0, max_gdp])
-        .range([0, 1.5 * Math.PI]);
-
-      const arc = d3
-        .arc()
-        .innerRadius((d, i) => (i + 1) * 25)
-        .outerRadius((d, i) => (i + 2) * 25)
-        .startAngle(angleScale(0))
-        .endAngle(d => angleScale(d.value));
-
-      const g = svg.append("g");
-
-      g.selectAll("path")
-        .data(sortedGDP)
-        .enter()
-        .append("path")
-        .attr("d", arc)
-        .attr("fill", (d, i) => color(i))
-        .attr("stroke", "#FFF")
-        .attr("stroke-width", "1px")
-        .on("mouseenter", function() {
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .attr("opacity", 0.5);
-        })
-        .on("mouseout", function() {
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .attr("opacity", 1);
-        });
-
-      g.selectAll("text")
-        .data(this.gdp)
-        .enter()
-        .append("text")
-        .text(d => `${d.country} -  ${d.value} Trillion`)
-        .attr("x", -150)
-        .attr("dy", -8)
-        .attr("y", (d, i) => -(i + 1) * 25);
-
-      g.attr("transform", "translate(200,300)");
-    }
   }
 };
 </script>
