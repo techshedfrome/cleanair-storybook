@@ -1,6 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, number, text } from '@storybook/addon-knobs';
+import { number, text } from '@storybook/addon-knobs';
 import SensorViewSelector from '../src/components/SensorViewSelector';
 export default {
     title: 'SensorViewSelector',
@@ -13,8 +12,6 @@ const viewSelectorTemplate = `<sensor-view-selector
                                 :pm10_value=pm10_value
                                 :name=name
                             />`;
-
-addDecorator(withKnobs)
 
 export const Default = () => ({
     components: { SensorViewSelector },

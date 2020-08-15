@@ -1,6 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, number, boolean } from '@storybook/addon-knobs';
+import { number, boolean } from '@storybook/addon-knobs';
 import DidYouKnow from '../src/components/DidYouKnow';
 export default {
     title: 'DidYouKnow',
@@ -10,8 +9,6 @@ export default {
 
 const didYouKnowTemplate = `<didYouKnow 
                             />`;
-
-addDecorator(withKnobs)
 
 export const toStorybook = () => ({
     components: { DidYouKnow },

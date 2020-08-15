@@ -1,7 +1,5 @@
-// src/components/Task.stories.js
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/vue'
-import { withKnobs, text, boolean } from '@storybook/addon-knobs';
+import { text, boolean } from '@storybook/addon-knobs';
 import Dial from '../src/components/Dial';
 export default {
     title: 'Dial',
@@ -21,8 +19,6 @@ const dialTemplate = `<dial
                             :show="show" 
                             :isDev="isDev" 
                             />`;
-
-addDecorator(withKnobs)
 
 export const toStorybook = () => ({
     components: { Dial },
