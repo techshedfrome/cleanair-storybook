@@ -6,6 +6,9 @@ Enables testing of components, both visually and functionally.
 Changes reviewable via Chromatic visual diff tool at: 
 * [Chromatic review tools](https://www.chromatic.com/build?appId=5f0e1aa3488d900022d5eb7a&number=11)
 
+Storybook v6 now includes automatic(ish) variable data for stories via [Controls](https://storybook.js.org/docs/react/essentials/controls).
+
+
 ## StoryBook
 
 Running Storybook locally:
