@@ -33,6 +33,4 @@ export const toStorybook = () => ({
     },
 });
 
-toStorybook.story = {
-    name: 'Default Live View State',
-}
+toStorybook.storyName = 'Default Live View State';

@@ -20,6 +20,4 @@ export const toStorybook = () => ({
     },
 });
 
-toStorybook.story = {
-    name: 'Default sensor history',
-}
+toStorybook.storyName = 'Default sensor history';

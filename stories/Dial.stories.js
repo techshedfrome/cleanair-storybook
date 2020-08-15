@@ -51,6 +51,4 @@ export const toStorybook = () => ({
     methods: actionsData,
 });
 
-toStorybook.story = {
-    name: 'Default Dial State',
-}
+toStorybook.storyName = 'Default Dial State';

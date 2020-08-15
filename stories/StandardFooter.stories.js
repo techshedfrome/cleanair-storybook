@@ -39,6 +39,4 @@ export const toStorybook = () => ({
     },
 });
 
-toStorybook.story = {
-    name: 'Default Measurement Selector State',
-}
+toStorybook.storyName = 'Default Measurement Selector State';
