@@ -1,8 +1,8 @@
 
 <template>
-  <div id="OverTime" class="tab-content section has-text-centered">
-    Coming Soon: view data over time (placeholder data)
+  <div id="OverTime" class="tab-content has-text-centered my-6 ml-1">
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
+    <strong>!dummy data!</strong>
   </div>
 </template>
 
@@ -18,6 +18,9 @@ custom D3 (with reactive binding):
   https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f
   https://www.sitepoint.com/vue-d3-data-visualization-intro/
   https://medium.com/swlh/modular-data-visualizations-with-vue-js-and-d3-87b37392a589
+
+  https://codepen.io/robleroy/details/abdMpoV
+  https://codepen.io/Formidablr/pen/VwaaXwM
 */
 export default {
   name: "SensorHistory",

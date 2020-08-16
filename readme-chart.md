@@ -5,6 +5,7 @@ potential alternative visualisations:
   number of minutes in each band
   max of contiguous time in each band
   over period, stacked percentage chart of each band
+  https://codepen.io/LouBagel/pen/dyPqEPg
 
   exploration:
     correlation - pick specific time windows and filter visualisations to that
@@ -13,6 +14,8 @@ potential alternative visualisations:
     comparison between sensors in town
       add as multiple series to chart
 
+
+https://observablehq.com/@bestwillintheworld
 
 
 TODO: Graphing view - likely powered by D3.js
