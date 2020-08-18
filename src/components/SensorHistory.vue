@@ -25,8 +25,9 @@ custom D3 (with reactive binding):
   https://codepen.io/robleroy/details/abdMpoV
   https://codepen.io/Formidablr/pen/VwaaXwM
 
-  TODO:  could to with fixed scale y-axis to give consistent sense of scale
-  TODO:  meed to pre-process the data to reduce number of points
+  TODO: could to with fixed scale y-axis to give consistent sense of scale
+  TODO: need to pre-process the data to reduce number of points
+  TODO: implement caching to reduce API hits & improve UX
 */
 export default {
   name: "SensorHistory",
