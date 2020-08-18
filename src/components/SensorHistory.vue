@@ -2,13 +2,16 @@
 <template>
   <div id="OverTime" class="tab-content has-text-centered my-6 ml-1">
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
-    <strong>!dummy data!</strong>
+    <strong>Real data for the last 24hrs, but hard-coded to a single sensor.</strong>
+    <p>This is accessing the Live OpenSenseMap API (needs switching to use a test file for the storybook, but varying the URL).</p>
   </div>
 </template>
 
 <script>
 import { D3LineChart } from "vue-d3-charts";
-//https://saigesp.github.io/vue-d3-charts/#/linechart 
+import { csv } from "d3-fetch";
+import moment from "moment";
+//https://saigesp.github.io/vue-d3-charts/#/linechart
 //  - doesn't appear to allow me to vary point colour by value,
 //    but might be able to mix standard D3 stuff with what this component wrapps up......
 
@@ -21,47 +24,25 @@ custom D3 (with reactive binding):
 
   https://codepen.io/robleroy/details/abdMpoV
   https://codepen.io/Formidablr/pen/VwaaXwM
+
+  TODO:  could to with fixed scale y-axis to give consistent sense of scale
+  TODO:  meed to pre-process the data to reduce number of points
 */
 export default {
   name: "SensorHistory",
   components: {
     D3LineChart
   },
-  data() {
-    return {
+  data: ()=> ({
       chart_data: [
-        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T00:00'},
-        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T01:00'},
-        {pm2_5:  0.38, pm10:  1.78, date: '2020-01-01T02:00'},
-        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T03:00'},
-        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T04:00'},
-        {pm2_5:  0.38, pm10:  1.78, date: '2020-01-01T05:00'},
-        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T06:00'},
-        {pm2_5:  9.38, pm10:  4.78, date: '2020-01-01T07:00'},
-        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T08:00'},
-        {pm2_5:  0.38, pm10:  2.07, date: '2020-01-01T09:00'},
-        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T10:00'},
-        {pm2_5:  9.38, pm10:  4.78, date: '2020-01-01T11:00'},
-        {pm2_5: 18.32, pm10: 13.92, date: '2020-01-01T12:00'},
-        {pm2_5:  0.92, pm10:  2.43, date: '2020-01-01T13:00'},
-        {pm2_5:  4.79, pm10:  3.29, date: '2020-01-01T14:00'},
-        {pm2_5:  5.76, pm10:  2.33, date: '2020-01-01T15:00'},
-        {pm2_5:  5.24, pm10:  3.25, date: '2020-01-01T16:00'},
-        {pm2_5:  6.48, pm10:  4.56, date: '2020-01-01T17:00'},
-        {pm2_5: 28.47, pm10: 23.46, date: '2020-01-01T18:00'},
-        {pm2_5:  2.00, pm10:  4.38, date: '2020-01-01T19:00'},
-        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T20:00'},
-        {pm2_5:  2.10, pm10:  1.84, date: '2020-01-01T21:00'},
-        {pm2_5:  0.38, pm10:  1.78, date: '2020-01-01T22:00'},
-        {pm2_5:  2.38, pm10:  1.34, date: '2020-01-01T23:00'},
       ],
       chart_config: {
         date: {
           key: "date",
-          inputFormat : "%Y-%m-%dT%H:%M",
+          inputFormat: "%Y-%m-%dT%H:%M:%S.%LZ",
           outputFormat: "%H:%M"
         },
-        values: ['pm2_5', 'pm10'],
+        values: ["pm2_5", "pm10"],
         axis: {
           yTitle: false,
           xTitle: false,
@@ -73,7 +54,7 @@ export default {
         color: {
           key: false,
           keys: false,
-          scheme: 'schemeCategory10',
+          scheme: "schemeCategory10",
           current: "#1f77b4",
           default: "#AAA",
           axis: "#000"
@@ -90,17 +71,50 @@ export default {
           hoverSize: 6
         },
         tooltip: {
-          labels: ['PM2.5','PM10']
+          labels: ["PM2.5", "PM10"]
         },
         transition: {
           duration: 350,
           ease: "easeLinear"
         }
       }
-    };
+  }),
+  mounted() {
+    this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM2.5", 24, pm2_5data => {
+      console.log('pm2_5data');
+      console.log(pm2_5data);
+              // createdAt: Tue Aug 18 2020 22:10:23 GMT+0100 (British Summer Time)
+              // phenomenon: "PM10"
+              // value: "0.30"
+      var loadingData = pm2_5data.map(x => ({ pm2_5: parseFloat(x.value) , pm10:.0, date: x.createdAt}) );
+      this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM10", 24, pm10data => {
+        console.log('pm10data');
+        console.log(pm10data);
+        pm10data.forEach((x,i) => { if(loadingData[i]) loadingData[i].pm10 = x.value });
+        this.chart_data = loadingData;
+      });
+    });
   },
-  mounted() {},
   methods: {
+    fetchDeviceStats(boxid, phenomenon, sampleHours, dataCallback) {
+      var toDate = moment();
+      var fromDate = moment().subtract(sampleHours, "hours");
+      console.log(fromDate.toISOString());
+      console.log(toDate.toISOString());
+      var url = `https://api.opensensemap.org/boxes/data?boxId=${boxid}&from-date=${fromDate.toISOString()}&to-date=${toDate.toISOString()}&phenomenon=${phenomenon}&columns=createdAt,value,phenomenon`;
+
+      console.log("fetching csv");
+      console.log(url);
+      csv(url)
+        .then(dataCallback)
+        .catch(request => {
+          if (!request.ok) {
+            console.error(request.Error);
+            throw Error(request.status);
+          }
+          return request;
+        });
+    }
   }
 };
 </script>
