@@ -7,13 +7,15 @@ var init = () => {
     var def = (args) => ({
         components: { SensorHistory },
         template: historyTemplate,
-        props: { },
+        props: { useHourlyMean : null},
     });
     def.argTypes = {
+        useHourlyMean: { control: 'boolean' },
     };
     return def;
 };
 
 export const DefaultSensorHistory = init();
 DefaultSensorHistory.args = {
+    useHourlyMean:false,
 };

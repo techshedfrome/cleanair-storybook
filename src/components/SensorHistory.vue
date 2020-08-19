@@ -10,6 +10,7 @@
 <script>
 import { D3LineChart } from "vue-d3-charts";
 import { csv } from "d3-fetch";
+import * as d3 from 'd3';
 import moment from "moment";
 //https://saigesp.github.io/vue-d3-charts/#/linechart
 //  - doesn't appear to allow me to vary point colour by value,
@@ -27,12 +28,20 @@ custom D3 (with reactive binding):
 
   TODO: could to with fixed scale y-axis to give consistent sense of scale
   TODO: need to pre-process the data to reduce number of points
+          Done, but this hides the outliers...
   TODO: implement caching to reduce API hits & improve UX
 */
 export default {
   name: "SensorHistory",
   components: {
     D3LineChart
+  },
+  props: {
+    useHourlyMean: {
+      type: Boolean,
+      required: false,
+      default: () => true
+    },
   },
   data: ()=> ({
       chart_data: [
@@ -79,24 +88,41 @@ export default {
           ease: "easeLinear"
         }
       }
-  }),
+  }),  
+  watch: {
+    useHourlyMean:  {
+      immediate: true,
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log(newValue);
+        this.populate();
+      }
+    }
+  },
   mounted() {
-    this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM2.5", 24, pm2_5data => {
-      console.log('pm2_5data');
-      console.log(pm2_5data);
-              // createdAt: Tue Aug 18 2020 22:10:23 GMT+0100 (British Summer Time)
-              // phenomenon: "PM10"
-              // value: "0.30"
-      var loadingData = pm2_5data.map(x => ({ pm2_5: parseFloat(x.value) , pm10:.0, date: x.createdAt}) );
-      this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM10", 24, pm10data => {
-        console.log('pm10data');
-        console.log(pm10data);
-        pm10data.forEach((x,i) => { if(loadingData[i]) loadingData[i].pm10 = x.value });
-        this.chart_data = loadingData;
-      });
-    });
+    this.populate();
   },
   methods: {
+    populate(){
+        this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM2.5", 24, pm2_5data => {
+          var data = this.useHourlyMean ? this.formatDateByHourInData(pm2_5data) : pm2_5data;
+          var loadingData = data.map(x => ({date: x.createdAt, pm2_5: parseFloat(x.value), pm10:.0}) );
+
+          this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM10", 24, pm10data => {
+            var data = this.useHourlyMean ? this.formatDateByHourInData(pm10data) : pm10data;
+            data.forEach((x,i) => { if(loadingData[i]) loadingData[i].pm10 = parseFloat(x.value) });
+            this.chart_data = loadingData;
+            console.log(this.chart_data);
+          });
+        });
+    },
+    formatDateByHourInData(data){
+      return d3.nest()
+                    .key(d => moment(d.createdAt).minute(0).second(0).millisecond(0).toISOString() )
+                    .rollup(d => d3.mean(d, g => g.value ), d => d.date)
+                    .entries(data).sort((a,b)=> b.key - a.key).reverse()
+                    .map(x => ({createdAt: x.key, value: x.value}));
+    },
     fetchDeviceStats(boxid, phenomenon, sampleHours, dataCallback) {
       var toDate = moment();
       var fromDate = moment().subtract(sampleHours, "hours");
