@@ -105,13 +105,13 @@ export default {
     }
   }),
   watch: {
-    device_id: function(newValue, oldValue) {
+    device_id: function() {
       this.populate();
     },
-    useHourlyMean: function(newValue, oldValue) {
+    useHourlyMean: function() {
       this.populate();
     },
-    periodInHours: function(newValue, oldValue) {
+    periodInHours: function() {
       this.populate();
     }
   },
