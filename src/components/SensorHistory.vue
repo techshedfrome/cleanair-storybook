@@ -2,15 +2,21 @@
 <template>
   <div id="OverTime" class="tab-content has-text-centered my-6 ml-1">
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
-    <strong>Real data for the last 24hrs, but hard-coded to a single sensor.</strong>
-    <p>This is accessing the Live OpenSenseMap API (needs switching to use a test file for the storybook, but varying the URL).</p>
+    <article class="article mt-6">
+      <div>
+        <p class="mb-3"><strong>Sensor data for the last 24hrs.</strong></p>
+        <p>The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.</p>
+        <p>Hover over the line to see more detailed values.</p>
+      </div>
+      <p class="mt-5">This view will be improved as we continue with the project.</p>
+    </article>
   </div>
 </template>
 
 <script>
 import { D3LineChart } from "vue-d3-charts";
 import { csv } from "d3-fetch";
-import * as d3 from 'd3';
+import * as d3 from "d3";
 import moment from "moment";
 //https://saigesp.github.io/vue-d3-charts/#/linechart
 //  - doesn't appear to allow me to vary point colour by value,
@@ -37,97 +43,140 @@ export default {
     D3LineChart
   },
   props: {
+    device_id: {
+      type: String,
+      required: false,
+      default: () => ""
+    },
     useHourlyMean: {
       type: Boolean,
       required: false,
-      default: () => true
+      default: () => false
     },
+    periodInHours: {
+      type: Number,
+      required: false,
+      default: () => 24
+    }
   },
-  data: ()=> ({
-      chart_data: [
-      ],
-      chart_config: {
-        date: {
-          key: "date",
-          inputFormat: "%Y-%m-%dT%H:%M:%S.%LZ",
-          outputFormat: "%H:%M"
-        },
-        values: ["pm2_5", "pm10"],
-        axis: {
-          yTitle: false,
-          xTitle: false,
-          yFormat: ".0f",
-          xFormat: "%Y-%m-%d %H:%M",
-          yTicks: 5,
-          xTicks: 3
-        },
-        color: {
-          key: false,
-          keys: false,
-          scheme: "schemeCategory10",
-          current: "#1f77b4",
-          default: "#AAA",
-          axis: "#000"
-        },
-        curve: "curveCatmullRom",
-        margin: {
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 40
-        },
-        points: {
-          visibleSize: 3,
-          hoverSize: 6
-        },
-        tooltip: {
-          labels: ["PM2.5", "PM10"]
-        },
-        transition: {
-          duration: 350,
-          ease: "easeLinear"
-        }
+  data: () => ({
+    chart_data: [],
+    chart_config: {
+      date: {
+        key: "date",
+        inputFormat: "%Y-%m-%dT%H:%M:%S.%LZ",
+        outputFormat: "%H:%M"
+      },
+      values: ["pm2_5", "pm10"],
+      axis: {
+        yTitle: false,
+        xTitle: false,
+        yFormat: ".0f",
+        xFormat: "%Y-%m-%d %H:%M",
+        yTicks: 5,
+        xTicks: 3
+      },
+      color: {
+        key: false,
+        keys: false,
+        scheme: "schemeCategory10",
+        current: "#1f77b4",
+        default: "#AAA",
+        axis: "#000"
+      },
+      curve: "curveCatmullRom",
+      margin: {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 40
+      },
+      points: {
+        visibleSize: 0,
+        hoverSize: 6
+      },
+      tooltip: {
+        labels: ["PM2.5", "PM10"]
+      },
+      transition: {
+        duration: 350,
+        ease: "easeLinear"
       }
-  }),  
+    }
+  }),
   watch: {
-    useHourlyMean:  {
-      immediate: true,
-      deep: true,
-      handler(newValue, oldValue) {
-        console.log(newValue);
-        this.populate();
-      }
+    device_id: function(newValue, oldValue) {
+      this.populate();
+    },
+    useHourlyMean: function(newValue, oldValue) {
+      this.populate();
+    },
+    periodInHours: function(newValue, oldValue) {
+      this.populate();
     }
   },
   mounted() {
+    console.log(`device id: ${this.device_id}`);
     this.populate();
   },
   methods: {
-    populate(){
-        this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM2.5", 24, pm2_5data => {
-          var data = this.useHourlyMean ? this.formatDateByHourInData(pm2_5data) : pm2_5data;
-          var loadingData = data.map(x => ({date: x.createdAt, pm2_5: parseFloat(x.value), pm10:.0}) );
+    populate() {
+      if (this.device_id) {
+        this.fetchDeviceStats(
+          this.device_id,
+          "PM2.5",
+          this.periodInHours,
+          pm2_5data => {
+            var data = this.useHourlyMean
+              ? this.formatDateByHourInData(pm2_5data)
+              : pm2_5data;
+            var loadingData = data.map(x => ({
+              date: x.createdAt,
+              pm2_5: parseFloat(x.value),
+              pm10: 0.0
+            }));
 
-          this.fetchDeviceStats("5ee63c4adc1438001b233b53", "PM10", 24, pm10data => {
-            var data = this.useHourlyMean ? this.formatDateByHourInData(pm10data) : pm10data;
-            data.forEach((x,i) => { if(loadingData[i]) loadingData[i].pm10 = parseFloat(x.value) });
-            this.chart_data = loadingData;
-            console.log(this.chart_data);
-          });
-        });
+            this.fetchDeviceStats(
+              this.device_id,
+              "PM10",
+              this.periodInHours,
+              pm10data => {
+                var data = this.useHourlyMean
+                  ? this.formatDateByHourInData(pm10data)
+                  : pm10data;
+                data.forEach((x, i) => {
+                  if (loadingData[i]) loadingData[i].pm10 = parseFloat(x.value);
+                });
+                this.chart_data = loadingData;
+                console.log(this.chart_data);
+              }
+            );
+          }
+        );
+      }
     },
-    formatDateByHourInData(data){
-      return d3.nest()
-                    .key(d => moment(d.createdAt).minute(0).second(0).millisecond(0).toISOString() )
-                    .rollup(d => d3.mean(d, g => g.value ), d => d.date)
-                    .entries(data).sort((a,b)=> b.key - a.key).reverse()
-                    .map(x => ({createdAt: x.key, value: x.value}));
+    formatDateByHourInData(data) {
+      return d3
+        .nest()
+        .key(d =>
+          moment(d.createdAt)
+            .minute(0)
+            .second(0)
+            .millisecond(0)
+            .toISOString()
+        )
+        .rollup(
+          d => d3.mean(d, g => g.value),
+          d => d.date
+        )
+        .entries(data)
+        .sort((a, b) => b.key - a.key)
+        .reverse()
+        .map(x => ({ createdAt: x.key, value: x.value }));
     },
     fetchDeviceStats(boxid, phenomenon, sampleHours, dataCallback) {
       var toDate = moment();
       var fromDate = moment().subtract(sampleHours, "hours");
-      console.log(fromDate.toISOString());
-      console.log(toDate.toISOString());
       var url = `https://api.opensensemap.org/boxes/data?boxId=${boxid}&from-date=${fromDate.toISOString()}&to-date=${toDate.toISOString()}&phenomenon=${phenomenon}&columns=createdAt,value,phenomenon`;
 
       console.log("fetching csv");
