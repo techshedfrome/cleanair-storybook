@@ -1,8 +1,8 @@
 
 <template>
-  <div id="OverTime" class="tab-content has-text-centered my-6 ml-1">
+  <div id="OverTime" class="tab-content has-text-centered my-6">
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
-    <article class="article mt-6">
+    <article class="article my-6">
       <div>
         <p class="mb-3"><strong>Sensor data for the last 24hrs.</strong></p>
         <p>The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.</p>
