@@ -18,27 +18,7 @@
 <script>
 import LineChart from "./LineChart";
 import moment from "moment";
-//https://saigesp.github.io/vue-d3-charts/#/linechart
-//  - doesn't appear to allow me to vary point colour by value,
-//    but might be able to mix standard D3 stuff with what this component wrapps up......
 
-/*
-custom D3 (with reactive binding):
-  https://medium.com/tyrone-tudehope/composing-d3-visualizations-with-vue-js-c65084ccb686
-  https://levelup.gitconnected.com/d3-js-and-vue-js-7a6a721eb79f
-  https://www.sitepoint.com/vue-d3-data-visualization-intro/
-  https://medium.com/swlh/modular-data-visualizations-with-vue-js-and-d3-87b37392a589
-
-  https://codepen.io/robleroy/details/abdMpoV
-  https://codepen.io/Formidablr/pen/VwaaXwM
-
-  TODO: could to with fixed scale y-axis to give consistent sense of scale
-  TODO: need to pre-process the data to reduce number of points
-          Done, but this hides the outliers...
-  TODO: implement caching to reduce API hits & improve UX
-
-  https://docs.opensensemap.org/#api-Measurements
-*/
 export default {
   name: "SensorHistory2",
   components: {
@@ -63,49 +43,6 @@ export default {
   },
   data: () => ({
     chartData: {},
-    chart_data: [],
-    chart_config: {
-      date: {
-        key: "date",
-        inputFormat: "%Y-%m-%dT%H:%M:%S.%LZ",
-        outputFormat: "%H:%M"
-      },
-      values: ["pm2_5", "pm10"],
-      axis: {
-        yTitle: false,
-        xTitle: false,
-        yFormat: ".0f",
-        xFormat: "%Y-%m-%d %H:%M",
-        yTicks: 5,
-        xTicks: 3
-      },
-      color: {
-        key: false,
-        keys: false,
-        scheme: "schemeCategory10",
-        current: "#1f77b4",
-        default: "#AAA",
-        axis: "#000"
-      },
-      curve: "curveCatmullRom",
-      margin: {
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 40
-      },
-      points: {
-        visibleSize: 0,
-        hoverSize: 6
-      },
-      tooltip: {
-        labels: ["PM2.5", "PM10"]
-      },
-      transition: {
-        duration: 350,
-        ease: "easeLinear"
-      }
-    }
   }),
   watch: {
     device_id: function() {
@@ -119,14 +56,14 @@ export default {
     }
   },
   mounted() {
-    console.log(`device id: ${this.device_id}`);
+    // console.log(`device id: ${this.device_id}`);
     this.fillData();
   },
   methods: {
     fillData() {
       this.chartData = {
         labels: [
-          "January" + this.getRandomInt(),
+          "January",
           "February",
           "March",
           "April",

@@ -21,8 +21,7 @@ export default {
         enabled: true,
         callbacks: {
           label: (tooltipItems, data) => {
-            console.log(this);
-            return tooltipItems.yLabel + "£";
+            return data.datasets[tooltipItems.datasetIndex].label + ': ' + tooltipItems.yLabel + " units";
           }
         }
       },
