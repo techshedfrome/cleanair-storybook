@@ -5,12 +5,9 @@
     <article class="article my-6">
       <div>
         <p class="mb-3">
-          <strong>Sensor data for the last 24hrs.</strong>
+          <strong>Currently fake, random data, with incorrect labels</strong>
         </p>
-        <p>The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.</p>
-        <p>Hover over the line to see more detailed values.</p>
       </div>
-      <p class="mt-5">This view will be improved as we continue with the project.</p>
     </article>
   </div>
 </template>
