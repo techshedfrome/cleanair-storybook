@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import store from './store';
+import Chart from "chart.js";
 
 
 import '@fortawesome/fontawesome-free/css/all.css'

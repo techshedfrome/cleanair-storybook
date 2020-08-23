@@ -1,10 +1,12 @@
 
 <template>
   <div id="OverTime" class="tab-content has-text-centered my-6">
-    <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
+    <LineChart :chartData="chartData"></LineChart>
     <article class="article my-6">
       <div>
-        <p class="mb-3"><strong>Sensor data for the last 24hrs.</strong></p>
+        <p class="mb-3">
+          <strong>Sensor data for the last 24hrs.</strong>
+        </p>
         <p>The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.</p>
         <p>Hover over the line to see more detailed values.</p>
       </div>
@@ -14,9 +16,7 @@
 </template>
 
 <script>
-import { D3LineChart } from "vue-d3-charts";
-import { csv } from "d3-fetch";
-import * as d3 from "d3";
+import LineChart from "./LineChart";
 import moment from "moment";
 //https://saigesp.github.io/vue-d3-charts/#/linechart
 //  - doesn't appear to allow me to vary point colour by value,
@@ -42,7 +42,7 @@ custom D3 (with reactive binding):
 export default {
   name: "SensorHistory2",
   components: {
-    D3LineChart
+    LineChart
   },
   props: {
     device_id: {
@@ -62,6 +62,7 @@ export default {
     }
   },
   data: () => ({
+    chartData: {},
     chart_data: [],
     chart_config: {
       date: {
@@ -119,79 +120,71 @@ export default {
   },
   mounted() {
     console.log(`device id: ${this.device_id}`);
-    this.populate();
+    this.fillData();
   },
   methods: {
-    populate() {
-      if (this.device_id) {
-        this.fetchDeviceStats(
-          this.device_id,
-          "PM2.5",
-          this.periodInHours,
-          pm2_5data => {
-            var data = this.useHourlyMean
-              ? this.formatDateByHourInData(pm2_5data)
-              : pm2_5data;
-            var loadingData = data.map(x => ({
-              date: x.createdAt,
-              pm2_5: parseFloat(x.value),
-              pm10: 0.0
-            }));
-
-            this.fetchDeviceStats(
-              this.device_id,
-              "PM10",
-              this.periodInHours,
-              pm10data => {
-                var data = this.useHourlyMean
-                  ? this.formatDateByHourInData(pm10data)
-                  : pm10data;
-                data.forEach((x, i) => {
-                  if (loadingData[i]) loadingData[i].pm10 = parseFloat(x.value);
-                });
-                this.chart_data = loadingData;
-                console.log(this.chart_data);
-              }
-            );
+    fillData() {
+      this.chartData = {
+        labels: [
+          "January" + this.getRandomInt(),
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor: "rgba(11, 71, 188, 0.3)",
+            borderColor: "rgba(6, 116, 188, 0.50)",
+            pointBackgroundColor: "rgba(171, 71, 188, 1)",
+            data: [
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt()
+            ]
+          },
+          {
+            label: "Data 2",
+            backgroundColor: "rgba(171, 71, 188, 0.3)",
+            borderColor: "rgba(6, 116, 188, 0.50)",
+            pointBackgroundColor: "rgba(171, 71, 188, 1)",
+            data: [
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt()
+            ]
           }
-        );
-      }
+        ]
+      };
     },
-    formatDateByHourInData(data) {
-      return d3
-        .nest()
-        .key(d =>
-          moment(d.createdAt)
-            .minute(0)
-            .second(0)
-            .millisecond(0)
-            .toISOString()
-        )
-        .rollup(
-          d => d3.mean(d, g => g.value),
-          d => d.date
-        )
-        .entries(data)
-        .sort((a, b) => b.key - a.key)
-        .reverse()
-        .map(x => ({ createdAt: x.key, value: x.value }));
-    },
-    fetchDeviceStats(boxid, phenomenon, sampleHours, dataCallback) {
-      var toDate = moment();
-      var fromDate = moment().subtract(sampleHours, "hours");
-      var url = `https://api.opensensemap.org/boxes/data?boxId=${boxid}&from-date=${fromDate.toISOString()}&to-date=${toDate.toISOString()}&phenomenon=${phenomenon}&columns=createdAt,value,phenomenon`;
-
-      console.log("fetching csv");
-      console.log(url);
-      csv(url)
-        .then(dataCallback)
-        .catch(request => {
-          if (!request.ok) {
-            console.error(request.Error);
-            throw Error(request.status);
-          }
-          return request;
-        });
+    getRandomInt() {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     }
   }
 };
