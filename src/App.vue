@@ -10,7 +10,7 @@
 
   export default {
     name: 'app',
-    store: store,
+    // store: store,
     components: {
       Instrumentation,
     },
