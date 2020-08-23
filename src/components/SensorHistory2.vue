@@ -40,7 +40,7 @@ custom D3 (with reactive binding):
   https://docs.opensensemap.org/#api-Measurements
 */
 export default {
-  name: "SensorHistory",
+  name: "SensorHistory2",
   components: {
     D3LineChart
   },
