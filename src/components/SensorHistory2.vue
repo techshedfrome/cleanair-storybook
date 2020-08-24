@@ -53,8 +53,42 @@ export default {
     }
   },
   mounted() {
-    // console.log(`device id: ${this.device_id}`);
+    console.log(`device id: ${this.device_id}`);
     this.fillData();
+  },
+  computed: {
+    data(){ 
+      return [
+        [
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt()
+        ],
+        [
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt(),
+            this.getRandomInt()
+        ]
+      ]
+    }
   },
   methods: {
     fillData() {
@@ -75,44 +109,18 @@ export default {
         ],
         datasets: [
           {
-            label: "Data One",
-            backgroundColor: "rgba(11, 71, 188, 0.3)",
-            borderColor: "rgba(6, 116, 188, 0.50)",
-            pointBackgroundColor: "rgba(171, 71, 188, 1)",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
+            label: "PM2.5",
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            borderColor: "#F3D374",
+            pointBackgroundColor: "#F3D374",
+            data: this.data[0]
           },
           {
-            label: "Data 2",
-            backgroundColor: "rgba(171, 71, 188, 0.3)",
-            borderColor: "rgba(6, 116, 188, 0.50)",
-            pointBackgroundColor: "rgba(171, 71, 188, 1)",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
+            label: "PM10",
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            borderColor: "#565F8E",
+            pointBackgroundColor: "#565F8E",
+            data: this.data[1]
           }
         ]
       };

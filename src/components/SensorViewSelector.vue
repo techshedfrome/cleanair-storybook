@@ -41,7 +41,7 @@
             :isDev="isDev"
             v-if="activeTab == 'now'"
           />
-          <SensorHistory 
+          <SensorHistory2 
             v-if="activeTab == 'history'" 
             :device_id="device_id" 
             :useHourlyMean=false
@@ -61,7 +61,7 @@
  component containing different sensor views, with a view selector tab bar/toggle at the top
 */
 import SensorLiveView from "./SensorLiveView";
-import SensorHistory from "./SensorHistory";
+import SensorHistory2 from "./SensorHistory2";
 import DidYouKnow from "./DidYouKnow";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
@@ -74,7 +74,7 @@ export default {
   name: "SensorViewSelector",
   components: {
     SensorLiveView,
-    SensorHistory,
+    SensorHistory2,
     DidYouKnow,
     FontAwesomeIcon
   },

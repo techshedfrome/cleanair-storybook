@@ -12,6 +12,7 @@ https://vue-chartjs.org/
 https://www.chartjs.org/docs/latest/configuration/tooltip.html
 https://codepen.io/Formidablr/pen/XWdpgjO?editors=1010
 https://www.chartjs.org/samples/latest/
+https://codesandbox.io/s/vue-chartjs-demo-forked-93web?file=/src/components/LineChart.vue
 
 D3 Scatter for deign reference: https://codepen.io/Formidablr/pen/VwaaXwM
 
@@ -26,27 +27,42 @@ export default {
   name: "LineChart",
   extends: Line,
   mixins: [reactiveProp],
-  props: {
-    chartData: {}
-  },
+  props: ['chartData', 'options', 'stepSizeY', 'v'],
+  // props: {
+  //   chartData: {},
+  //   stepSizeY: 10,
+  //   maxY: 120
+  // },
   mounted() {
-    this.renderChart(this.chartData, {
-      responsive: true,
-      maintainAspectRatio: false,
-      title: {
-        display: true,
-        text: "My Data"
-      },
-      tooltips: {
-        enabled: true,
-        callbacks: {
-          label: (tooltipItems, data) => {
-            return data.datasets[tooltipItems.datasetIndex].label + ': ' + tooltipItems.yLabel + " units";
+    this.renderChart(
+      this.chartData, 
+      {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: "My Data"
+        },
+        tooltips: {
+          enabled: true,
+          callbacks: {
+            label: (tooltipItems, data) => {
+              return data.datasets[tooltipItems.datasetIndex].label + ': ' + tooltipItems.yLabel + " units";
+            }
           }
-        }
-      },
-      plugins: {}
-    });
+        },
+        plugins: {},
+        scales: {
+            yAxes: [{
+                ticks: {
+                  stepSize: this.stepSizeY,
+                  max: 120, //this.maxY,
+                  min: 0
+                }
+            }]
+          }
+      }
+    );
   }
 };
 </script>
