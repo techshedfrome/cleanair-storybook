@@ -5,8 +5,6 @@ export default {
   extends: Line,
   props: {
     chartData: {},
-    stepSizeY: 10,
-    maxY: 120, 
     chartOptions: null
   },
   methods: {
@@ -31,23 +29,36 @@ export var ChartDefaults = {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          display: true,
-          text: "My Data"
+          display: false,
+          text: "Sensor Data for the Last 24hrs"
         },
         tooltips: {
           enabled: true,
           callbacks: {
             label: (tooltipItems, data) => {
-              return data.datasets[tooltipItems.datasetIndex].label + ': ' + tooltipItems.yLabel + "µg/m³";
+              return ` ${data.datasets[tooltipItems.datasetIndex].label}: ${tooltipItems.yLabel}µg/m³`;
             }
           }
         },
         plugins: {},
         scales: {
+            xAxes: [{
+                type: 'time',
+                time: {
+                  unit: 'hour',
+                  tooltipFormat: 'HH:mm',
+                  displayFormats: {
+                      hour: 'HH:mm'
+                  }
+                },
+                gridLines: {
+                    display:false
+                }
+            }],
             yAxes: [{
                 ticks: {
                   stepSize: 10,
-                  max: 120, 
+                  max: 30, 
                   min: 0
                 }
             }]

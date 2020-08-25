@@ -62,7 +62,7 @@
  component containing different sensor views, with a view selector tab bar/toggle at the top
 */
 import SensorLiveView from "./SensorLiveView";
-import SensorHistory2 from "./SensorHistory2";
+import SensorHistory from "./SensorHistory";
 import DidYouKnow from "./DidYouKnow";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
@@ -75,7 +75,7 @@ export default {
   name: "SensorViewSelector",
   components: {
     SensorLiveView,
-    SensorHistory2,
+    SensorHistory,
     DidYouKnow,
     FontAwesomeIcon
   },
