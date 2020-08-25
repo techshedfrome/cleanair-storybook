@@ -41,12 +41,13 @@
             :isDev="isDev"
             v-if="activeTab == 'now'"
           />
-          <SensorHistory2 
+          <SensorHistory
             v-if="activeTab == 'history'" 
             :device_id="device_id" 
             :useHourlyMean=false
             :periodInHours=24
           />
+
         </section>
 
         <DidYouKnow />
