@@ -85,6 +85,11 @@ export default {
   },
   methods: {
     populate() {
+      //TODO: turn this inside out so we're not polluting the componenet with test info
+      if (this.device_id === 'FAKE') {
+        this.fillFakeData();
+        return;
+      }
       if (this.device_id) {
 
         this.fetchDeviceStats(this.device_id, "PM2.5", this.periodInHours,
@@ -108,6 +113,9 @@ export default {
           }
         );
       }
+    },
+    fillFakeData(){
+
     },
     getMax(data){
       var max = data.reduce((acc, x) => parseFloat(x.y) > acc ? parseFloat(x.y) : acc, 0) + 10;

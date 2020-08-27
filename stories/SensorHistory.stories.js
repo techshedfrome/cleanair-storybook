@@ -24,8 +24,42 @@ var init = () => {
     return def;
 };
 
-export const DefaultSensorHistory = init();
-DefaultSensorHistory.args = {
+export const DefaultFakeData = init();
+DefaultFakeData.args = {
+    useHourlyMean: false,
+    device_id: 'FAKE',
+    periodInHours: 24
+};
+
+export const DefaultFakeDataWeek = init();
+DefaultFakeDataWeek.args = {
+    useHourlyMean: false,
+    device_id: 'FAKE',
+    periodInHours: 24 * 7
+};
+export const DefaultFakeDataMonth = init();
+DefaultFakeDataMonth.args = {
+    useHourlyMean: false,
+    device_id: 'FAKE',
+    periodInHours: 24 * 30
+};
+
+export const SlowFakeData = init();
+SlowFakeData.args = {
+    useHourlyMean: false,
+    device_id: 'SLOWFAKE',
+    periodInHours: 24
+};
+
+export const Loading = init();
+Loading.args = {
+    useHourlyMean: false,
+    device_id: 'none',
+    periodInHours: 24
+};
+
+export const LiveData = init();
+LiveData.args = {
     useHourlyMean: false,
     device_id: '5ee60cf3dc1438001b1036ea',
     periodInHours: 24
