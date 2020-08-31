@@ -3,8 +3,8 @@
   <div id="OverTime" class="tab-content has-text-centered my-6">
     <div style="margin-right: 1rem">
       <LineChart :chartData="chartData" :chartOptions="chartDefaults"></LineChart>
-      <VueProgress style="width: 230px; height: 230px;">
-        <!-- <svg width="230" height="230" viewBox="0 0 230 230">
+     <!--  <VueProgress style="width: 230px; height: 230px;">
+        <svg width="230" height="230" viewBox="0 0 230 230">
           <g transform="translate(25, 25) rotate(0, 90, 90)">
             <g class="container">
               <path d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" class="background" />
@@ -16,8 +16,9 @@
               />
             </g>
           </g>
-        </svg> -->
-      </VueProgress> 
+        </svg>
+      </VueProgress>
+     -->
     </div>
     <article class="article my-6">
       <div>

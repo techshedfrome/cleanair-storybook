@@ -136,8 +136,8 @@ function generateDataPoints(randomSeed, count, max, fromDate, toDate){
 }
 
 function fakeData(boxid, phenomenon, sampleHours, useHourlyMean, dataCallback) {
-    var pm2_5 = generateDataPoints(1, sampleHours, 25, Date.now() - 1000 * 60 * 60 * 24, Date.now());
-    var pm10 = generateDataPoints(2, sampleHours, 25, Date.now() - 1000 * 60 * 60 * 24, Date.now());
+    var pm2_5 = generateDataPoints(1, 390 * sampleHours / 20, 25, Date.now() - 1000 * 60 * 60 * sampleHours, Date.now());
+    var pm10  = generateDataPoints(2, 390 * sampleHours / 20, 25, Date.now() - 1000 * 60 * 60 * sampleHours, Date.now());
     
     if (phenomenon == 'PM2.5') dataCallback(pm2_5);
     if (phenomenon == 'PM10') dataCallback(pm10);
