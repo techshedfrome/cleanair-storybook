@@ -57,6 +57,7 @@ export var ChartDefaults = {
             }],
             yAxes: [{
                 ticks: {
+                  beginAtZero: true,
                   stepSize: 10,
                   max: 30, 
                   min: 0

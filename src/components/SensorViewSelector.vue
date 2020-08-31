@@ -46,6 +46,7 @@
             :device_id="device_id" 
             :useHourlyMean=false
             :periodInHours=24
+            :fetchBoxData="fetchData"
           />
 
         </section>
@@ -64,9 +65,12 @@
 import SensorLiveView from "./SensorLiveView";
 import SensorHistory from "./SensorHistory";
 import DidYouKnow from "./DidYouKnow";
+
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { faCalendarAlt, faClock } from "@fortawesome/free-regular-svg-icons";
+
+import { fetchBoxData } from "./sensor-data";
 
 // Make sure you tell Font Awesome to skip auto-inserting CSS into the <head>
 config.autoAddCss = false;
@@ -128,6 +132,11 @@ export default {
     calendarIcon: faCalendarAlt,
     clockIcon: faClock,
   }),
-  computed: {}
+  methods: {
+    fetchData(boxid, phenomenon, sampleHours, useHourlyMean, dataCallback){
+      return fetchBoxData(boxid, phenomenon, sampleHours, useHourlyMean, dataCallback)
+    }
+
+  }
 };
 </script>
