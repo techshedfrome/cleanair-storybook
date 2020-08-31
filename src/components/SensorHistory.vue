@@ -71,19 +71,31 @@ export default {
       datasets: [
         {
           label: "PM2.5",
-          backgroundColor: "RGBA(254, 191, 50, 0.2)",
-          borderColor: "RGBA(254, 191, 50, 1.00)",
-          pointBackgroundColor: "RGBA(255, 226, 170, 1.00)",
-          pointRadius: 3,
-          pointHoverRadius: 5,
+          backgroundColor: "RGBA(255, 226, 176, 0.6)",
+          borderColor: "RGBA(254, 191, 50, 0.0)",
+          borderWidth: 0,
+          hoverBorderWidth: 5,
+
+          pointHoverBorderColor: "RGBA(254, 191, 50, 0.5)",
+          pointBorderColor: "RGBA(254, 191, 50, 0.1)",
+          pointBackgroundColor: "RGBA(255, 226, 170, 0.1)",          
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          spanGaps: false,
         },
         {
           label: "PM10",
-          backgroundColor: "RGBA(43, 165, 216, 0.2)",
-          borderColor: "RGBA(43, 165, 216, 1.00)",
-          pointBackgroundColor: "RGBA(157, 219 ,244, 1)",
-          pointRadius: 3,
-          pointHoverRadius: 5,
+          backgroundColor: "RGBA(166, 225, 249, 0.3)",
+          borderColor: "RGBA(43, 165, 216, 0)",
+          borderWidth: 0,
+          hoverBorderWidth: 5,
+
+          pointHoverBorderColor: "RGBA(43, 165, 216, 0.5)",
+          pointBorderColor: "RGBA(43, 165, 216, 0.1)",
+          pointBackgroundColor: "RGBA(157, 219 ,244, 0.1)",
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          spanGaps: false,
         }
       ]
     },
@@ -138,7 +150,7 @@ export default {
         data.reduce(
           (acc, x) => (parseFloat(x.y) > acc ? parseFloat(x.y) : acc),
           0
-        ) + 10;
+        ) + 5;
       return Math.round(max / 10) * 10;
     },
     changeAxisMax(newMax) {
@@ -149,6 +161,7 @@ export default {
         beginAtZero: this.chartDefaults.scales.yAxes[0].ticks.beginAtZero
       };
       this.chartDefaults = {
+        pointColorAlpha: this.chartDefaults.pointColorAlpha,
         responsive: this.chartDefaults.responsive,
         maintainAspectRatio: this.chartDefaults.maintainAspectRatio,
         title: this.chartDefaults.title,

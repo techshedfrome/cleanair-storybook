@@ -6,119 +6,144 @@ export default {
   extends: Line,
   props: {
     chartData: {},
-    chartOptions: null,
+    chartOptions: null
   },
   methods: {
     populate() {
       // console.log(this.chartData);
-      for(var i = 0; i < this.chartData.length; i++){
-        this.chartData[0].points[i].fillColor = getPointColor(0, this.ChartData); 
-        this.chartData[1].points[i].fillColor = getPointColor(1, this.ChartData); 
+      for (var i = 0; i < this.chartData.length; i++) {
+        this.chartData[0].points[i].fillColor = getPointColor(0, this.ChartData);
+        this.chartData[1].points[i].fillColor = getPointColor(1, this.ChartData);
       }
-      this.renderChart(this.chartData, this.chartOptions ?? ChartDefaults);
+      this.renderChart(this.chartData, this.chartOptions);
       //generate color range between based on values
     },
-    getPointColor(datasetIndex, value){
+    getPointColor(datasetIndex, value) {
+      var alpha = this.chartOptions.pointColorAlpha ?? ChartDefaults.pointColorAlpha; 
       var colors = [
-            'rgb( 37, 255,  91)',
-            'rgb(136, 253,  40)',
-            'rgb(166, 226,   2)',
-            'rgb(255, 230,   0)',
-            'rgb(255, 208,   0)',
-            'rgb(255, 187,   0)',
-            'rgb(255, 145,   0)',
-            'rgb(255, 123,   0)',
-            'rgb(253,  73,  28)',
-            'rgb(224,  28, 224)',
-      ]
-      var translator = [
-          pm25ToIndex,
-          pm10ToIndex
-      ]
-      return colors[translator[datasetIndex](value)];
-    }
+        `rgba( 37, 255,  91, ${alpha})`,
+        `rgba(136, 253,  40, ${alpha})`,
+        `rgba(166, 226,   2, ${alpha})`,
+        `rgba(255, 230,   0, ${alpha})`,
+        `rgba(255, 208,   0, ${alpha})`,
+        `rgba(255, 187,   0, ${alpha})`,
+        `rgba(255, 145,   0, ${alpha})`,
+        `rgba(255, 123,   0, ${alpha})`,
+        `rgba(253,  73,  28, ${alpha})`,
+        `rgba(224,  28, 224, ${alpha})`
+      ];
+      var translator = [pm25ToIndex, pm10ToIndex];
+      return colors[translator[datasetIndex](value) - 1];
+    },
   },
-
+  computed: {},
   watch: {
     chartData: function() {
       this.populate();
     },
-    chartOptions: function() {
+    options: function() {
       this.populate();
     }
   },
   mounted() {
+    let component = this;
+    console.log(component.chartOptions);
+    this.addPlugin({
+      id: "vary-color",
+      beforeDatasetUpdate(chart) {
+        var newLabels = [[], []];
+
+        function addPointColors(datasetIndex) {
+          var pointColors = [];
+          for ( var i = 0; i < component.chartData.datasets[datasetIndex].data.length; i++)
+            pointColors.push(
+              component.getPointColor(0, component.chartData.datasets[datasetIndex].data[i].y)
+            );
+          console.log(pointColors[0]);
+          component.chartData.datasets[datasetIndex].pointBackgroundColor = pointColors;
+        }
+        addPointColors(0);
+        addPointColors(1);
+      }
+    });
     this.populate();
   }
 };
 
+var hoveredDatasetIndex;
 export var ChartDefaults = {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: false,
-          text: "Sensor Data for the Last 24hrs"
-        },
-        tooltips: {
-          enabled: true,
-          callbacks: {
-            label: (tooltipItems, data) => {
-              return ` ${data.datasets[tooltipItems.datasetIndex].label}: ${tooltipItems.yLabel}µg/m³`;
-            }
+  pointColorAlpha: 0.4,
+  responsive: true,
+  maintainAspectRatio: false,
+  title: {
+    display: false,
+    text: "Sensor Data for the Last 24hrs"
+  },
+  tooltips: {
+    enabled: true,
+    callbacks: {
+      label: (tooltipItems, data) => {
+        return ` ${data.datasets[tooltipItems.datasetIndex].label}: ${
+          tooltipItems.yLabel
+        }µg/m³`;
+      }
+    }
+  },
+  scales: {
+    xAxes: [
+      {
+        type: "time",
+        time: {
+          unit: "hour",
+          tooltipFormat: "HH:mm MMM D",
+          displayFormats: {
+            hour: "HH:mm"
           }
         },
-        scales: {
-            xAxes: [{
-                type: 'time',
-                time: {
-                  unit: 'hour',
-                  tooltipFormat: 'MMM D HH:mm',
-                  displayFormats: {
-                      hour: 'HH:mm'
-                  }
-                },
-                gridLines: {
-                    display:false
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  stepSize: 10,
-                  max: 30, 
-                  min: 0
-                }
-            }]
-          },
-        plugins: 
-        [{
-          id: 'vary-color',
-          afterDatasetDraw(chart) {
-            console.log(chart);
-            console.log(chart.chart);
-            console.log(chart.chart.ctx);
-            console.log(chart.chartData);
-            for(var i = 0; i < this.chartData.length; i++){
-              this.chartData[0].points[i].fillColor = getPointColor(0, this.ChartData); 
-              this.chartData[1].points[i].fillColor = getPointColor(1, this.ChartData); 
-            }
-            // console.log(chart)
-            // const width = chart.chart.width;
-            // const height = chart.chart.height;
-            // const ctx = chart.chart.ctx;
-            // ctx.restore();
-            // const fontSize = (height / 114).toFixed(2);
-            // ctx.font = `${fontSize}em sans-serif`;
-            // ctx.textBaseline = 'middle';
-            // const text = '4511kWh';
-            // const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            // const textY = height / 2;
-            // ctx.fillText(text, textX, textY);
-            // ctx.save();
-          },
-        }]
+        gridLines: {
+          display: false
+        }
       }
-      
+    ],
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true,
+          stepSize: 5,
+          max: 10,
+          min: 0
+        }
+      }
+    ]
+  },
+  plugins: [],
+  legend: {
+    labels: {
+      usePointStyle: false
+    },
+    onHover: function(event, legendItem) {
+      var hoverOptions = this.chartOptions?.hover || {};
+      var ci = this.chart;
+      ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
+      ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
+      ci.updateHoverStyle(
+        ci.getDatasetMeta(legendItem.datasetIndex).data,
+        null,
+        true
+      );
+      ci.render();
+    },
+    onLeave: function(event, legendItem) {
+      var hoverOptions = this.chartOptions?.hover || {};
+      var ci = this.chart;
+      ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
+      ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
+      ci.render();
+    }
+  }
+};
+
+
 /*
 Looked at Konva
 https://konvajs.org/docs/sandbox/index.html

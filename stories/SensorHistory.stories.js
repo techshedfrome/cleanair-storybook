@@ -130,7 +130,7 @@ function generateDataPoints(randomSeed, count, max, fromDate, toDate){
     var rand = seedrandom(randomSeed);
     var data = [];
     for(var i = 0; i<count; i++) 
-        data.push({ x: fromDate + i * timeStep, y: rand() * max });
+        data.push({ x: fromDate + i * timeStep, y: (rand() * max).toFixed(2) });
 
     return data;
 }
