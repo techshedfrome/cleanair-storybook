@@ -97,6 +97,7 @@ function slowFakeData() {
                  data => setTimeout(()=> dataCallback(data), 2000) )
 }
 function tallFakeData() {
+    var rand = seedrandom('tallFakeData');
     return (boxid, phenomenon, sampleHours, useHourlyMean, dataCallback) =>
         fakeData(boxid,
             phenomenon,
@@ -104,12 +105,13 @@ function tallFakeData() {
             useHourlyMean,
             data => {
                 console.log(data[0].y);
-                data = data.map(d => ({ x: d.x, y: d.y / 2.5 + 90 }));
+                data = data.map(d => ({ x: d.x, y: d.y / 2.5 + rand() * 90 }));
                 dataCallback(data);
             }
         )
 }
 function shortFakeData() {
+    var rand = seedrandom('shortFakeData');
     return (boxid, phenomenon, sampleHours, useHourlyMean, dataCallback) =>
         fakeData(boxid,
             phenomenon,
@@ -117,7 +119,7 @@ function shortFakeData() {
             useHourlyMean,
             data => {
                 console.log(data[0].y);
-                data = data.map(d => ({ x: d.x, y: d.y / 12.5 }));
+                data = data.map(d => ({ x: d.x, y: rand() * d.y / 12.5  }));
                 dataCallback(data);
             }
         )
