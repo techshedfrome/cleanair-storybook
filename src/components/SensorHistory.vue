@@ -37,6 +37,14 @@
 import LineChart from "./LineChart";
 import { ChartDefaults } from "./LineChart";
 // import VueProgress from 'vue-progress-path'
+/*
+Loading spinner options:
+https://github.com/Akryum/vue-progress-path  https://akryum.github.io/vue-progress-path/?ref=madewithvuejs.com
+http://greyby.github.io/vue-spinner/?ref=madewithvuejs.com
+https://epic-spinners.epicmax.co/?ref=madewithvuejs.com
+
+*/
+
 
 export default {
   name: "SensorHistory",
