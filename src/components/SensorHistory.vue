@@ -36,13 +36,13 @@
 <script>
 import LineChart from "./LineChart";
 import { ChartDefaults } from "./LineChart";
-import VueProgress from 'vue-progress-path'
+// import VueProgress from 'vue-progress-path'
 
 export default {
   name: "SensorHistory",
   components: {
     LineChart,
-    VueProgress
+    // VueProgress
   },
   props: {
     fetchBoxData: {
