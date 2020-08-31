@@ -2,6 +2,7 @@ import SensorHistory from '../src/components/SensorHistory';
 export default { title: 'SensorHistory' };
 
 import { fetchBoxData } from "../src/components/sensor-data.js";
+import seedrandom from 'seedrandom';
 
 const historyTemplate = `<sensorHistory 
                                 :useHourlyMean=useHourlyMean
@@ -122,60 +123,22 @@ function shortFakeData() {
         )
 }
 
-function fakeData(boxid, phenomenon, sampleHours, useHourlyMean, dataCallback) {
-    if (phenomenon == 'PM2.5')
-        dataCallback([
-            { x: '2020-01-01 00:00Z', y:  6.5 },
-            { x: '2020-01-01 01:00Z', y:  4.5 },
-            { x: '2020-01-01 02:00Z', y: 19.5 },
-            { x: '2020-01-01 03:00Z', y: 15.5 },
-            { x: '2020-01-01 04:00Z', y:  9.5 },
-            { x: '2020-01-01 05:00Z', y: 17.5 },
-            { x: '2020-01-01 06:00Z', y: 10.5 },
-            { x: '2020-01-01 07:00Z', y: 18.5 },
-            { x: '2020-01-01 08:00Z', y:  8.5 },
-            { x: '2020-01-01 09:00Z', y:  5.5 },
-            { x: '2020-01-01 10:00Z', y: 14.5 },
-            { x: '2020-01-01 11:00Z', y: 16.5 },
-            { x: '2020-01-01 12:00Z', y: 20.5 },
-            { x: '2020-01-01 13:00Z', y:  3.5 },
-            { x: '2020-01-01 14:00Z', y:  1.5 },
-            { x: '2020-01-01 15:00Z', y:  7.5 },
-            { x: '2020-01-01 16:00Z', y:  2.5 },
-            { x: '2020-01-01 17:00Z', y: 12.5 },
-            { x: '2020-01-01 18:00Z', y: 11.5 },
-            { x: '2020-01-01 19:00Z', y: 13.5 },
-            { x: '2020-01-01 20:00Z', y:  7.5 },
-            { x: '2020-01-01 21:00Z', y:  2.5 },
-            { x: '2020-01-01 22:00Z', y: 12.5 },
-            { x: '2020-01-01 23:00Z', y:  9.5 },
-        ]);
+function generateDataPoints(randomSeed, count, max, fromDate, toDate){
+    var totalMilliSeconds = Math.abs(toDate - fromDate);
+    var timeStep = totalMilliSeconds / count;
 
-    if (phenomenon == 'PM10')
-        dataCallback([
-            { x: '2020-01-01 00:00Z', y: 10.5 },
-            { x: '2020-01-01 01:00Z', y: 17.5 },
-            { x: '2020-01-01 02:00Z', y:  1.5 },
-            { x: '2020-01-01 03:00Z', y: 18.5 },
-            { x: '2020-01-01 04:00Z', y: 14.5 },
-            { x: '2020-01-01 05:00Z', y:  7.5 },
-            { x: '2020-01-01 06:00Z', y: 14.5 },
-            { x: '2020-01-01 07:00Z', y: 21.5 },
-            { x: '2020-01-01 08:00Z', y: 13.5 },
-            { x: '2020-01-01 09:00Z', y:  8.5 },
-            { x: '2020-01-01 10:00Z', y: 20.5 },
-            { x: '2020-01-01 11:00Z', y: 16.5 },
-            { x: '2020-01-01 12:00Z', y: 15.5 },
-            { x: '2020-01-01 13:00Z', y: 19.5 },
-            { x: '2020-01-01 14:00Z', y: 22.5 },
-            { x: '2020-01-01 15:00Z', y: 23.5 },
-            { x: '2020-01-01 16:00Z', y:  5.5 },
-            { x: '2020-01-01 17:00Z', y: 19.5 },
-            { x: '2020-01-01 18:00Z', y: 16.5 },
-            { x: '2020-01-01 19:00Z', y:  2.5 },
-            { x: '2020-01-01 20:00Z', y: 16.5 },
-            { x: '2020-01-01 21:00Z', y:  4.5 },
-            { x: '2020-01-01 22:00Z', y: 12.5 },
-            { x: '2020-01-01 23:00Z', y: 15.5 },
-        ]);
+    var rand = seedrandom(randomSeed);
+    var data = [];
+    for(var i = 0; i<count; i++) 
+        data.push({ x: fromDate + i * timeStep, y: rand() * max });
+
+    return data;
+}
+
+function fakeData(boxid, phenomenon, sampleHours, useHourlyMean, dataCallback) {
+    var pm2_5 = generateDataPoints(1, sampleHours, 25, Date.now() - 1000 * 60 * 60 * 24, Date.now());
+    var pm10 = generateDataPoints(2, sampleHours, 25, Date.now() - 1000 * 60 * 60 * 24, Date.now());
+    
+    if (phenomenon == 'PM2.5') dataCallback(pm2_5);
+    if (phenomenon == 'PM10') dataCallback(pm10);
 }

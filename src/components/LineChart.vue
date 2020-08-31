@@ -46,7 +46,7 @@ export var ChartDefaults = {
                 type: 'time',
                 time: {
                   unit: 'hour',
-                  tooltipFormat: 'HH:mm',
+                  tooltipFormat: 'MMM D HH:mm',
                   displayFormats: {
                       hour: 'HH:mm'
                   }
