@@ -44,7 +44,7 @@
                   <h3 class="has-text-weight-semibold">Developed by</h3>
                   <br />
                   <a href="https://techshedfrome.org/">
-                    <img src="assets/TechShed_Logo_Ani_optimised.gif" width="190px" />
+                    <img src="assets/TechShed_Logo_Ani_optimised.gif" width="190px" class="chromatic-ignore" />
                   </a>
                 </div>
               </div>
