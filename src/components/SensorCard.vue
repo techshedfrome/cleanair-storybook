@@ -5,9 +5,9 @@
         <div
           class="title is-size-5 has-text-left-tablet mb-3"
           :id="`decicecardtitle_${device_id}`"
-        >Christchurch Street East</div>
+        >{{ streetName }}</div>
         <div class="has-text-left-tablet has-text-weight-normal is-size-6">
-          5 meters from traffic
+          {{ description }}
           <br />1 sensor
         </div>
       </div>
@@ -24,7 +24,9 @@
     >
       <div class="level-item">
         <div>
-          <div :class="`value-badge is-size-4 border aqi-${daqi_value} title invisible make-visible`">
+          <div
+            :class="`value-badge is-size-4 border aqi-${daqi_value} title invisible make-visible`"
+          >
             <p>{{ daqi_value }}</p>
           </div>
           <label for="detail-toggle">
@@ -39,15 +41,17 @@
 </template>
 
 <script>
+/*
+needs an event or hook to tie in the displaying of SensorLiveView.
+*/
 export default {
   name: "SensorCard",
-  components: {
-  },
+  components: {},
   props: {
     fetchBoxData: {
       type: Function,
       required: false,
-      default: () => console.log("fetchBoxData not defined")
+      default: () => console.log("fetchBoxData prop not defined")
     },
     device_id: {
       type: String,
@@ -56,11 +60,11 @@ export default {
     },
     last_seen: {
       type: Date,
-      required: false,
+      required: false
     },
     readingdate: {
       type: Date,
-      required: false,
+      required: false
     },
     pm2_5_value: {
       type: String,
@@ -82,7 +86,35 @@ export default {
       required: false,
       default: () => "-"
     },
+    description: {
+      type: String,
+      required: false,
+      default: () => "-"
+    }
   },
+  data: () => ({
+    streetName: ""
+  }),
+  created() {
+    // hook into created()  to trigger population of streetname
+    // populateStreetName();
+  },
+  beforeMount() {},
+  mounted() {
+    this.getStreetName();
+  },
+  methods: {
+    getStreetName() {
+      //streetname is async
+      //
+      //fetch streetname from known coords or streetname API
+      // fetch("<URL>")
+      // .then(response => response.json())
+      // .then(data => (this.streetName = data.result));
+      this.streetName = "Not a Real Street";
+    }
+  },
+  computed: {}
 };
 </script>
 

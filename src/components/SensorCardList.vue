@@ -1,6 +1,6 @@
 <template>
   <div class="container readings" id="itemListContainer">
-    <SensorCard v-for="item in sensors" 
+    <SensorCard v-for="item in sensorList" 
                 :key="item.device_id" 
                 :device_id="item.device_id" 
                 :last_seen="item.last_seen" 
@@ -23,11 +23,21 @@ export default {
   components: {
     SensorCard
   },
-  props: {},
+  props: {
+    getSensors: {
+      type: Function,
+      required: false,
+      default: () => console.log("getSensors prop not defined")
+    },
+  },
   data: () => ({
-    // TODO: is data passed in or fetched?
     sensorList: []
-  })
+  }),
+  mounted() {
+    console.log(this.sensorList);
+    this.sensorList = this.getSensors();
+    console.log(this.sensorList);
+  }
 };
 </script>
 

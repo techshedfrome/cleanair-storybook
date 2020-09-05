@@ -42,8 +42,8 @@ var init = () => {
     return def;
 };
 
-export const DefaultInstrumentation = init();
-DefaultInstrumentation.args = {
+export const ExampleCard = init();
+ExampleCard.args = {
     device_id: '1',
     last_seen: new Date(),
     readingdate: new Date(),
