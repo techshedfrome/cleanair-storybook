@@ -1,9 +1,14 @@
 
 <template>
   <div id="OverTime" class="tab-content has-text-centered my-6">
+    <span>Hours </span>
+    <input type="number"
+          v-model.number="showHours"      
+    >
     <div style="margin-right: 1rem">
-      <LineChart :chartData="chartData" :chartOptions="chartDefaults"></LineChart>
-     <!--  <VueProgress style="width: 230px; height: 230px;">
+      <LineChart :chartData="chartData" :chartOptions="chartDefaults">
+        
+      <VueProgress style="width: 230px; height: 230px;">
         <svg width="230" height="230" viewBox="0 0 230 230">
           <g transform="translate(25, 25) rotate(0, 90, 90)">
             <g class="container">
@@ -18,7 +23,19 @@
           </g>
         </svg>
       </VueProgress>
-     -->
+      </LineChart>
+      <section class="section">
+        <label class="is-size-5">Apply Smoothing </label>
+        <input type="checkbox" 
+                v-model="shouldSmooth"
+                true-value=true
+                false-value=false   
+                @change="populate()"          
+                >
+        <p >The <a href="https://dawn.cs.stanford.edu//2017/08/07/asap/">type of smoothing used</a> aims to preserve as much of the outlier values as possible and make trends easier to spot.</p>
+        <p>It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.</p>
+        <p>We intend to create additional views to better visualise extreme values.</p>
+      </section>        
     </div>
     <article class="article my-6">
       <div>
@@ -36,7 +53,8 @@
 <script>
 import LineChart from "./LineChart";
 import { ChartDefaults } from "./LineChart";
-// import VueProgress from 'vue-progress-path'
+import VueProgress from 'vue-progress-path'
+import { smooth } from './asap'
 /*
 Loading spinner options:
 https://github.com/Akryum/vue-progress-path  https://akryum.github.io/vue-progress-path/?ref=madewithvuejs.com
@@ -50,7 +68,7 @@ export default {
   name: "SensorHistory",
   components: {
     LineChart,
-    // VueProgress
+    VueProgress
   },
   props: {
     fetchBoxData: {
@@ -75,6 +93,9 @@ export default {
     }
   },
   data: () => ({
+    smooth: smooth,
+    shouldSmooth: false,
+    showHours: 0,
     chartData: {
       datasets: [
         {
@@ -120,17 +141,23 @@ export default {
       this.populate();
     }
   },
+  created(){
+    if (this.showHours === 0) this.showHours = this.periodInHours;
+    if (this.showHours > 40) this.shouldSmooth = true;
+  },
   mounted() {
     console.log(`device id: ${this.device_id}`);
+    if (this.periodInHours > 40) this.shouldSmooth = true;
     this.populate();
   },
   methods: {
     populate() {
+      console.log(this.showHours);
       if (this.device_id) {
         this.fetchBoxData(
           this.device_id,
           "PM2.5",
-          this.periodInHours,
+          this.showHours,
           this.useHourlyMean,
           pm2_5data => {
             this.fillDataSet(0, pm2_5data);
@@ -142,7 +169,7 @@ export default {
         this.fetchBoxData(
           this.device_id,
           "PM10",
-          this.periodInHours,
+          this.showHours,
           this.useHourlyMean,
           pm10data => {
             this.fillDataSet(1, pm10data);
@@ -181,15 +208,39 @@ export default {
         }
       };
     },
-    fillDataSet(index, data) {
+    applySmoothing(data){
+      //https://dawn.cs.stanford.edu//2017/08/07/asap/
+      //https://github.com/stanford-futuredata/ASAP
+      //https://arxiv.org/pdf/1703.00983.pdf
+      //
+      //alternative: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.104.5423&rep=rep1&type=pdf
+      //https://github.com/muonsw/ssci
+      //https://statsbot.co/blog/time-series-anomaly-detection-algorithms/
+      console.log("applying smoothing");
+      var smoothed = smooth(data.map(x => parseFloat(x.y)), 40);
+      var step = data.length / smoothed.length;
+      
+      return  smoothed.map((value, index)=> {
+        var xIndex = Math.floor(index * step);
+        if (xIndex >= data.length)
+          xIndex = data.length - 1;
+        return {x: data[xIndex]?.x ?? 0, 
+                y: value}; 
+      })
+    },
+    fillDataSet(index, dataset) {
+      console.log(this.shouldSmooth);
+      console.log(dataset.length);
+      if (this.shouldSmooth == true)
+        dataset = this.applySmoothing([...dataset]);
       var pm2_5 = this.chartData.datasets[0];
       var pm10 = this.chartData.datasets[1];
 
-      if (index === 0) pm2_5.data = data;
-      if (index === 1) pm10.data = data;
+      if (index === 0) pm2_5.data = dataset;
+      if (index === 1) pm10.data = dataset;
 
       this.chartData = {
-        labels: data.map(x => x.x),
+        labels: dataset.map(x => x.x),
         datasets: [pm2_5, pm10]
       };
     }
