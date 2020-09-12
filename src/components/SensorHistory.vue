@@ -4,7 +4,6 @@
     <span>Hours </span>
     <input type="number"
           v-model.number="showHours"  
-          @change="populate()"     
     >
     <div style="margin-right: 1rem">
       <LineChart :chartData="chartData" :chartOptions="chartDefaults">
@@ -30,8 +29,7 @@
         <input type="checkbox" 
                 v-model="shouldSmooth"
                 true-value=true
-                false-value=false   
-                @change="populate()"          
+                false-value=false        
                 >
         <p >The <a href="https://dawn.cs.stanford.edu//2017/08/07/asap/">type of smoothing used</a> aims to preserve as much of the outlier values as possible and make trends easier to spot.</p>
         <p>It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.</p>
@@ -95,7 +93,7 @@ export default {
   },
   data: () => ({
     smooth: smooth,
-    shouldSmooth: false,
+    shouldSmooth: "false",
     showHours: 0,
     chartData: {
       datasets: [
@@ -138,7 +136,10 @@ export default {
     useHourlyMean: function() {
       this.populate();
     },
-    periodInHours: function() {
+    showHours: function() {
+      this.populate();
+    },
+    shouldSmooth: function() {
       this.populate();
     }
   },
@@ -232,7 +233,7 @@ export default {
     fillDataSet(index, dataset) {
       console.log(this.shouldSmooth);
       console.log(dataset.length);
-      if (this.shouldSmooth == true)
+      if (this.shouldSmooth == true || this.shouldSmooth != "false")
         dataset = this.applySmoothing([...dataset]);
       var pm2_5 = this.chartData.datasets[0];
       var pm10 = this.chartData.datasets[1];
