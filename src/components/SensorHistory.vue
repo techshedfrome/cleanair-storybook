@@ -3,7 +3,8 @@
   <div id="OverTime" class="tab-content has-text-centered my-6">
     <span>Hours </span>
     <input type="number"
-          v-model.number="showHours"      
+          v-model.number="showHours"  
+          @change="populate()"     
     >
     <div style="margin-right: 1rem">
       <LineChart :chartData="chartData" :chartOptions="chartDefaults">
