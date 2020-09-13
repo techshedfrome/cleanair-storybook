@@ -47,7 +47,6 @@ export default {
   },
   mounted() {
     let component = this;
-    console.log(component.chartOptions);
     this.addPlugin({
       id: "vary-color",
       beforeDatasetUpdate() {

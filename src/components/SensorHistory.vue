@@ -36,27 +36,19 @@
       </ul>
     </div>
 
-      <section class="my-3">
-        <label class="is-size-5 mr-1">Apply Smoothing</label>
-        <input type="checkbox" v-model="shouldSmooth" true-value="true" false-value="false" @change="populate()"/>
-      </section>
-    <div style="margin-right: 1rem">
+    <section class="my-3">
+      <label class="is-size-5 mr-1">Apply Smoothing</label>
+      <input
+        type="checkbox"
+        v-model="shouldSmooth"
+        true-value="true"
+        false-value="false"
+        @change="populate()"
+      />
+    </section>
+    <div class="vld-parent" style="margin-right: 1rem">
+      <loading :active.sync="isLoading" :is-full-page="false" loader="dots"></loading>
       <LineChart :chartData="chartData" :chartOptions="chartDefaults">
-        <VueProgress style="width: 230px; height: 230px;">
-          <svg width="230" height="230" viewBox="0 0 230 230">
-            <g transform="translate(25, 25) rotate(0, 90, 90)">
-              <g class="container">
-                <path d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" class="background" />
-                <path
-                  d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"
-                  stroke-dasharray="282.010498046875 282.010498046875"
-                  stroke-dashoffset="-140390.1212388579"
-                  class="progress"
-                />
-              </g>
-            </g>
-          </svg>
-        </VueProgress>
       </LineChart>
     </div>
     <article class="article my-6">
@@ -89,7 +81,10 @@
 <script>
 import LineChart from "./LineChart";
 import { ChartDefaults } from "./LineChart";
-import VueProgress from "vue-progress-path";
+
+import Loading from "vue-loading-overlay";
+// import "vue-loading-overlay/dist/vue-loading.css";
+
 import { smooth } from "./asap";
 /*
 Loading spinner options:
@@ -103,7 +98,7 @@ export default {
   name: "SensorHistory",
   components: {
     LineChart,
-    VueProgress
+    Loading
   },
   props: {
     fetchBoxData: {
@@ -128,41 +123,43 @@ export default {
     }
   },
   data: () => ({
+    isLoading: false,
+    fullPage: true,
     smooth: smooth,
     activeTab: "day",
     shouldSmooth: "false",
     showHours: 0,
-    defaultData:[
-        {
-          label: "PM2.5",
-          backgroundColor: "RGBA(255, 226, 176, 0.6)",
-          borderColor: "RGBA(254, 191, 50, 0.0)",
-          borderWidth: 0,
-          hoverBorderWidth: 5,
+    defaultData: [
+      {
+        label: "PM2.5",
+        backgroundColor: "RGBA(255, 226, 176, 0.6)",
+        borderColor: "RGBA(254, 191, 50, 0.0)",
+        borderWidth: 0,
+        hoverBorderWidth: 5,
 
-          pointHoverBorderColor: "RGBA(254, 191, 50, 0.5)",
-          pointBorderColor: "RGBA(254, 191, 50, 0.1)",
-          pointBackgroundColor: "RGBA(255, 226, 170, 0.1)",
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          spanGaps: false
-        },
-        {
-          label: "PM10",
-          backgroundColor: "RGBA(166, 225, 249, 0.3)",
-          borderColor: "RGBA(43, 165, 216, 0)",
-          borderWidth: 0,
-          hoverBorderWidth: 5,
+        pointHoverBorderColor: "RGBA(254, 191, 50, 0.5)",
+        pointBorderColor: "RGBA(254, 191, 50, 0.1)",
+        pointBackgroundColor: "RGBA(255, 226, 170, 0.1)",
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        spanGaps: false
+      },
+      {
+        label: "PM10",
+        backgroundColor: "RGBA(166, 225, 249, 0.3)",
+        borderColor: "RGBA(43, 165, 216, 0)",
+        borderWidth: 0,
+        hoverBorderWidth: 5,
 
-          pointHoverBorderColor: "RGBA(43, 165, 216, 0.5)",
-          pointBorderColor: "RGBA(43, 165, 216, 0.1)",
-          pointBackgroundColor: "RGBA(157, 219 ,244, 0.1)",
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          spanGaps: false
-        }
-      ],
-    chartData: {   },
+        pointHoverBorderColor: "RGBA(43, 165, 216, 0.5)",
+        pointBorderColor: "RGBA(43, 165, 216, 0.1)",
+        pointBackgroundColor: "RGBA(157, 219 ,244, 0.1)",
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        spanGaps: false
+      }
+    ],
+    chartData: {},
     chartDefaults: ChartDefaults
   }),
   watch: {
@@ -174,30 +171,31 @@ export default {
     },
     showHours: function() {
       this.populate(true);
-    },
+    }
     // shouldSmooth: function() {
     //   this.populate();
     // }
   },
   created() {
-    this.chartData = {  datasets: [...this.defaultData] };
+    this.chartData = { datasets: [...this.defaultData] };
     if (this.showHours === 0) this.showHours = this.periodInHours;
     if (this.showHours > 40) this.shouldSmooth = true;
-    const midwayDayToWeek = (168-24)/2;
-    const midwayWeekToMonth = (672-168)/2;
+    const midwayDayToWeek = (168 - 24) / 2;
+    const midwayWeekToMonth = (672 - 168) / 2;
     if (this.showHours <= 168)
-      this.activeTab = (this.showHours > midwayDayToWeek) ? 'week' : 'day';
-    else 
-      this.activeTab = (this.showHours > midwayWeekToMonth) ? 'month' : 'week';
+      this.activeTab = this.showHours > midwayDayToWeek ? "week" : "day";
+    else this.activeTab = this.showHours > midwayWeekToMonth ? "month" : "week";
   },
   mounted() {
-    console.log(`device id: ${this.device_id}`);
+    console.debug(`device id: ${this.device_id}`);
     if (this.periodInHours > 40) this.shouldSmooth = true;
     this.populate();
   },
   methods: {
     populate(clearFirst) {
-      if(clearFirst) this.chartData = { labels: [], datasets: [...this.defaultData] };
+      this.isLoading = true;
+      if (clearFirst)
+        this.chartData = { labels: [], datasets: [...this.defaultData] };
       if (this.device_id) {
         this.fetchBoxData(
           this.device_id,
@@ -221,6 +219,7 @@ export default {
             var max = this.getMax(pm10data);
             if (max > this.chartDefaults.scales.yAxes[0].ticks.max)
               this.changeAxisMax(max);
+            this.isLoading = false;
           }
         );
       }
@@ -261,7 +260,7 @@ export default {
       //alternative: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.104.5423&rep=rep1&type=pdf
       //https://github.com/muonsw/ssci
       //https://statsbot.co/blog/time-series-anomaly-detection-algorithms/
-      console.log("applying smoothing");
+      console.debug("applying smoothing");
       var smoothed = smooth(
         data.map(x => parseFloat(x.y)),
         40
@@ -280,8 +279,13 @@ export default {
       var pm2_5 = this.chartData.datasets[0];
       var pm10 = this.chartData.datasets[1];
 
-      if (index === 0) pm2_5.data = dataset;
-      if (index === 1) pm10.data = dataset;
+      if (index === 0) {
+        pm2_5.data = dataset;
+        pm10.data = [];
+      }
+      if (index === 1) {
+        pm10.data = dataset;
+      }
 
       this.chartData = {
         labels: dataset.map(x => x.x),
@@ -297,4 +301,40 @@ export default {
   width: 5rem;
   font-size: 0.8em;
 }
+
+.vld-shown {
+  overflow: hidden;
+}
+.vld-overlay {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  align-items: center;
+  display: none;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 9999;
+}
+.vld-overlay.is-active {
+  display: flex;
+}
+.vld-overlay.is-full-page {
+  z-index: 9999;
+  position: fixed;
+}
+.vld-overlay .vld-background {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #fff;
+  opacity: 0.5;
+}
+.vld-overlay .vld-icon, .vld-parent {
+  position: relative;
+}
+
 </style>

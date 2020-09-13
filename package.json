@@ -27,6 +27,7 @@
     "vue-chartjs": "^3.5.1",
     "vue-d3-charts": "^0.2.8",
     "vue-docgen-loader": "^1.5.0",
+    "vue-loading-overlay": "^3.4.0",
     "vue-progress-path": "^0.0.2",
     "vuex": "^3.5.1"
   },
