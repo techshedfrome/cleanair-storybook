@@ -184,9 +184,11 @@ export default {
     if (this.showHours === 0) this.showHours = this.periodInHours;
     if (this.showHours > 40) this.shouldSmooth = true;
     const midwayDayToWeek = (168-24)/2;
-    if (this.showHours > midwayDayToWeek && this.showHours <= 168) this.activeTab = 'week';
     const midwayWeekToMonth = (672-168)/2;
-    if (this.showHours > midwayDayToWeek && this.showHours > 168) this.activeTab = 'month';
+    if (this.showHours <= 168)
+      this.activeTab = (this.showHours > midwayDayToWeek) ? 'week' : 'day';
+    else 
+      this.activeTab = (this.showHours > midwayWeekToMonth) ? 'month' : 'week';
   },
   mounted() {
     console.log(`device id: ${this.device_id}`);
