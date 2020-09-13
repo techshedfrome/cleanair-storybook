@@ -37,7 +37,7 @@
     </div>
 
       <section class="my-3">
-        <label class="is-size-5">Apply Smoothing</label>
+        <label class="is-size-5 mr-1">Apply Smoothing</label>
         <input type="checkbox" v-model="shouldSmooth" true-value="true" false-value="false" @change="populate()"/>
       </section>
     <div style="margin-right: 1rem">
