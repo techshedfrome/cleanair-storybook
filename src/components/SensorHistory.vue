@@ -35,6 +35,11 @@
         </li>
       </ul>
     </div>
+
+      <section class="my-3">
+        <label class="is-size-5">Apply Smoothing</label>
+        <input type="checkbox" v-model="shouldSmooth" true-value="true" false-value="false" @change="populate()"/>
+      </section>
     <div style="margin-right: 1rem">
       <LineChart :chartData="chartData" :chartOptions="chartDefaults">
         <VueProgress style="width: 230px; height: 230px;">
@@ -53,16 +58,6 @@
           </svg>
         </VueProgress>
       </LineChart>
-      <section class="section">
-        <label class="is-size-5">Apply Smoothing</label>
-        <input type="checkbox" v-model="shouldSmooth" true-value="true" false-value="false" @change="populate()"/>
-        <p>
-          The
-          <a href="https://dawn.cs.stanford.edu//2017/08/07/asap/">type of smoothing used</a> aims to preserve as much of the outlier values as possible and make trends easier to spot.
-        </p>
-        <p>It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.</p>
-        <p>We intend to create additional views to better visualise extreme values.</p>
-      </section>
     </div>
     <article class="article my-6">
       <div>
@@ -73,6 +68,20 @@
         <p>Hover over the line to see more detailed values.</p>
       </div>
       <p class="mt-5">This view will be improved as we continue with the project.</p>
+    </article>
+    <article class="article my-6">
+      <div>
+        <p class="mb-3">
+          <strong>About smoothing</strong>
+        </p>
+        <p>
+          The
+          <a href="https://dawn.cs.stanford.edu//2017/08/07/asap/">type of smoothing used</a> aims to preserve as much of the outlier values as possible and make trends easier to spot.
+        </p>
+        <p>It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.</p>
+        <p>When viewing longer data periods without smoothing, the chart will take longer to load and trends may be harder to pich out of the data.</p>
+        <p class="mt-5">We intend to create additional views to better visualise extreme values.</p>
+      </div>
     </article>
   </div>
 </template>
@@ -174,6 +183,10 @@ export default {
   created() {
     if (this.showHours === 0) this.showHours = this.periodInHours;
     if (this.showHours > 40) this.shouldSmooth = true;
+    const midwayDayToWeek = (168-24)/2;
+    if (this.showHours > midwayDayToWeek && this.showHours <= 168) this.activeTab = 'week';
+    const midwayWeekToMonth = (672-168)/2;
+    if (this.showHours > midwayDayToWeek && this.showHours > 168) this.activeTab = 'month';
   },
   mounted() {
     console.log(`device id: ${this.device_id}`);
