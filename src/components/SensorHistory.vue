@@ -62,7 +62,7 @@
     <article class="article my-6">
       <div>
         <p class="mb-3">
-          <strong>Sensor data for the last 24hrs.</strong>
+          <strong>Sensor data for the last {{activeTab}} ({{showHours}}hrs)</strong>
         </p>
         <p>The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.</p>
         <p>Hover over the line to see more detailed values.</p>
