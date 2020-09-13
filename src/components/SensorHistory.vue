@@ -281,7 +281,6 @@ export default {
 
       if (index === 0) {
         pm2_5.data = dataset;
-        pm10.data = [];
       }
       if (index === 1) {
         pm10.data = dataset;
