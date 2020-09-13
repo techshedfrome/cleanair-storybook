@@ -12,7 +12,7 @@
           v-bind:class="{ 'is-active': activeTab == 'day' }"
         >
           <a>
-            <span class="has-text-black has-text-weight-bold">24 hours</span>
+            <span class="has-text-black has-text-weight-bold">Day</span>
           </a>
         </li>
         <li
@@ -21,7 +21,7 @@
           v-bind:class="{ 'is-active': activeTab == 'week' }"
         >
           <a>
-            <span class="has-text-black has-text-weight-bold">7 days</span>
+            <span class="has-text-black has-text-weight-bold">Week</span>
           </a>
         </li>
         <li
@@ -295,7 +295,8 @@ export default {
 </script>
 
 <style>
-.tab {
-  width: 8rem;
+#periodTabs .tab {
+  width: 5rem;
+  font-size: 0.8em;
 }
 </style>
