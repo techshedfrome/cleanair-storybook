@@ -132,8 +132,7 @@ export default {
     activeTab: "day",
     shouldSmooth: "false",
     showHours: 0,
-    chartData: {
-      datasets: [
+    defaultData:[
         {
           label: "PM2.5",
           backgroundColor: "RGBA(255, 226, 176, 0.6)",
@@ -162,8 +161,8 @@ export default {
           pointHoverRadius: 6,
           spanGaps: false
         }
-      ]
-    },
+      ],
+    chartData: {   },
     chartDefaults: ChartDefaults
   }),
   watch: {
@@ -174,13 +173,14 @@ export default {
       this.populate();
     },
     showHours: function() {
-      this.populate();
+      this.populate(true);
     },
     // shouldSmooth: function() {
     //   this.populate();
     // }
   },
   created() {
+    this.chartData = {  datasets: [...this.defaultData] };
     if (this.showHours === 0) this.showHours = this.periodInHours;
     if (this.showHours > 40) this.shouldSmooth = true;
     const midwayDayToWeek = (168-24)/2;
@@ -196,7 +196,8 @@ export default {
     this.populate();
   },
   methods: {
-    populate() {
+    populate(clearFirst) {
+      if(clearFirst) this.chartData = { labels: [], datasets: [...this.defaultData] };
       console.log(this.showHours);
       if (this.device_id) {
         this.fetchBoxData(
