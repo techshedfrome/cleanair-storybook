@@ -198,7 +198,6 @@ export default {
   methods: {
     populate(clearFirst) {
       if(clearFirst) this.chartData = { labels: [], datasets: [...this.defaultData] };
-      console.log(this.showHours);
       if (this.device_id) {
         this.fetchBoxData(
           this.device_id,
@@ -276,8 +275,6 @@ export default {
       });
     },
     fillDataSet(index, dataset) {
-      console.log(this.shouldSmooth);
-      console.log(dataset.length);
       if (this.shouldSmooth != "false" && this.shouldSmooth)
         dataset = this.applySmoothing([...dataset]);
       var pm2_5 = this.chartData.datasets[0];

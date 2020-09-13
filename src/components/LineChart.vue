@@ -12,8 +12,8 @@ export default {
     populate() {
       // console.log(this.chartData);
       for (var i = 0; i < this.chartData.length; i++) {
-        this.chartData[0].points[i].fillColor = getPointColor(0, this.ChartData);
-        this.chartData[1].points[i].fillColor = getPointColor(1, this.ChartData);
+        this.chartData[0].points[i].fillColor = this.getPointColor(0, this.ChartData);
+        this.chartData[1].points[i].fillColor = this.getPointColor(1, this.ChartData);
       }
       this.renderChart(this.chartData, this.chartOptions);
       //generate color range between based on values
@@ -50,16 +50,13 @@ export default {
     console.log(component.chartOptions);
     this.addPlugin({
       id: "vary-color",
-      beforeDatasetUpdate(chart) {
-        var newLabels = [[], []];
-
+      beforeDatasetUpdate() {
         function addPointColors(datasetIndex) {
           var pointColors = [];
           for ( var i = 0; i < component.chartData.datasets[datasetIndex].data.length; i++)
             pointColors.push(
               component.getPointColor(0, component.chartData.datasets[datasetIndex].data[i].y)
             );
-          console.log(pointColors[0]);
           component.chartData.datasets[datasetIndex].pointBackgroundColor = pointColors;
         }
         addPointColors(0);
@@ -70,7 +67,6 @@ export default {
   }
 };
 
-var hoveredDatasetIndex;
 export var ChartDefaults = {
   pointColorAlpha: 0.4,
   responsive: true,
@@ -97,11 +93,19 @@ export var ChartDefaults = {
           unit: "hour",
           tooltipFormat: "HH:mm MMM D",
           displayFormats: {
-            hour: "HH:mm"
+            hour: "HH:mm",
+            day: 'D MMMM'
           }
         },
         gridLines: {
           display: false
+        },
+        ticks: {
+          source: 'auto',
+          major: 
+          {
+            enabled: true,
+          }
         }
       }
     ],
@@ -122,7 +126,6 @@ export var ChartDefaults = {
       usePointStyle: false
     },
     onHover: function(event, legendItem) {
-      var hoverOptions = this.chartOptions?.hover || {};
       var ci = this.chart;
       ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
@@ -133,8 +136,7 @@ export var ChartDefaults = {
       );
       ci.render();
     },
-    onLeave: function(event, legendItem) {
-      var hoverOptions = this.chartOptions?.hover || {};
+    onLeave: function() {
       var ci = this.chart;
       ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);

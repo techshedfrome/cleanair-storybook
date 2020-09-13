@@ -25437,8 +25437,8 @@ var VueCharts = {
     populate() {
       // console.log(this.chartData);
       for (var i = 0; i < this.chartData.length; i++) {
-        this.chartData[0].points[i].fillColor = getPointColor(0, this.ChartData);
-        this.chartData[1].points[i].fillColor = getPointColor(1, this.ChartData);
+        this.chartData[0].points[i].fillColor = this.getPointColor(0, this.ChartData);
+        this.chartData[1].points[i].fillColor = this.getPointColor(1, this.ChartData);
       }
 
       this.renderChart(this.chartData, this.chartOptions); //generate color range between based on values
@@ -25470,15 +25470,12 @@ var VueCharts = {
     this.addPlugin({
       id: "vary-color",
 
-      beforeDatasetUpdate(chart) {
-        var newLabels = [[], []];
-
+      beforeDatasetUpdate() {
         function addPointColors(datasetIndex) {
           var pointColors = [];
 
           for (var i = 0; i < component.chartData.datasets[datasetIndex].data.length; i++) pointColors.push(component.getPointColor(0, component.chartData.datasets[datasetIndex].data[i].y));
 
-          console.log(pointColors[0]);
           component.chartData.datasets[datasetIndex].pointBackgroundColor = pointColors;
         }
 
@@ -25491,7 +25488,6 @@ var VueCharts = {
   }
 
 });
-var hoveredDatasetIndex;
 var ChartDefaults = {
   pointColorAlpha: 0.4,
   responsive: true,
@@ -25515,11 +25511,18 @@ var ChartDefaults = {
         unit: "hour",
         tooltipFormat: "HH:mm MMM D",
         displayFormats: {
-          hour: "HH:mm"
+          hour: "HH:mm",
+          day: 'D MMMM'
         }
       },
       gridLines: {
         display: false
+      },
+      ticks: {
+        source: 'auto',
+        major: {
+          enabled: true
+        }
       }
     }],
     yAxes: [{
@@ -25537,19 +25540,13 @@ var ChartDefaults = {
       usePointStyle: false
     },
     onHover: function (event, legendItem) {
-      var _this$chartOptions;
-
-      var hoverOptions = ((_this$chartOptions = this.chartOptions) === null || _this$chartOptions === void 0 ? void 0 : _this$chartOptions.hover) || {};
       var ci = this.chart;
       ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(legendItem.datasetIndex).data, null, true);
       ci.render();
     },
-    onLeave: function (event, legendItem) {
-      var _this$chartOptions2;
-
-      var hoverOptions = ((_this$chartOptions2 = this.chartOptions) === null || _this$chartOptions2 === void 0 ? void 0 : _this$chartOptions2.hover) || {};
+    onLeave: function () {
       var ci = this.chart;
       ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
@@ -25981,12 +25978,12 @@ var SensorCardListshadow_component = normalizeComponent(
 )
 
 /* harmony default export */ var SensorCardListshadow = (SensorCardListshadow_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4b74413e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SensorHistory.vue?vue&type=template&id=066ac690&shadow
-var SensorHistoryvue_type_template_id_066ac690_shadow_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"tab-content has-text-centered my-6",attrs:{"id":"OverTime"}},[_c('div',{staticClass:"pt-1 tabs is-toggle is-toggle-rounded is-centered has-text-black has-text-weight-medium",attrs:{"id":"periodTabs"}},[_c('ul',{staticClass:"has-text-weight-medium"},[_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'day' },on:{"click":function($event){_vm.activeTab = 'day';  _vm.shouldSmooth='false'; _vm.showHours=24;}}},[_vm._m(0)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'week' },on:{"click":function($event){_vm.activeTab = 'week'; _vm.shouldSmooth='true'; _vm.showHours=168;}}},[_vm._m(1)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'month' },on:{"click":function($event){_vm.activeTab = 'month';  _vm.shouldSmooth='true'; _vm.showHours=672;}}},[_vm._m(2)])])]),_c('section',{staticClass:"my-3"},[_c('label',{staticClass:"is-size-5 mr-1"},[_vm._v("Apply Smoothing")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.shouldSmooth),expression:"shouldSmooth"}],attrs:{"type":"checkbox","true-value":"true","false-value":"false"},domProps:{"checked":Array.isArray(_vm.shouldSmooth)?_vm._i(_vm.shouldSmooth,null)>-1:_vm._q(_vm.shouldSmooth,"true")},on:{"change":[function($event){var $$a=_vm.shouldSmooth,$$el=$event.target,$$c=$$el.checked?("true"):("false");if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.shouldSmooth=$$a.concat([$$v]))}else{$$i>-1&&(_vm.shouldSmooth=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.shouldSmooth=$$c}},function($event){return _vm.populate()}]}})]),_c('div',{staticStyle:{"margin-right":"1rem"}},[_c('LineChart',{attrs:{"chartData":_vm.chartData,"chartOptions":_vm.chartDefaults}},[_c('VueProgress',{staticStyle:{"width":"230px","height":"230px"}},[_c('svg',{attrs:{"width":"230","height":"230","viewBox":"0 0 230 230"}},[_c('g',{attrs:{"transform":"translate(25, 25) rotate(0, 90, 90)"}},[_c('g',{staticClass:"container"},[_c('path',{staticClass:"background",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"}}),_c('path',{staticClass:"progress",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80","stroke-dasharray":"282.010498046875 282.010498046875","stroke-dashoffset":"-140390.1212388579"}})])])])])],1)],1),_c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("Sensor data for the last "+_vm._s(_vm.activeTab)+" ("+_vm._s(_vm.showHours)+"hrs)")])]),_c('p',[_vm._v("The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.")]),_c('p',[_vm._v("Hover over the line to see more detailed values.")])]),_c('p',{staticClass:"mt-5"},[_vm._v("This view will be improved as we continue with the project.")])]),_vm._m(3)])}
-var SensorHistoryvue_type_template_id_066ac690_shadow_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Day")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Week")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Month")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("About smoothing")])]),_c('p',[_vm._v(" The "),_c('a',{attrs:{"href":"https://dawn.cs.stanford.edu//2017/08/07/asap/"}},[_vm._v("type of smoothing used")]),_vm._v(" aims to preserve as much of the outlier values as possible and make trends easier to spot. ")]),_c('p',[_vm._v("It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.")]),_c('p',[_vm._v("When viewing longer data periods without smoothing, the chart will take longer to load and trends may be harder to pich out of the data.")]),_c('p',{staticClass:"mt-5"},[_vm._v("We intend to create additional views to better visualise extreme values.")])])])}]
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4b74413e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SensorHistory.vue?vue&type=template&id=0727b6d4&shadow
+var SensorHistoryvue_type_template_id_0727b6d4_shadow_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"tab-content has-text-centered my-6",attrs:{"id":"OverTime"}},[_c('div',{staticClass:"pt-1 tabs is-toggle is-toggle-rounded is-centered has-text-black has-text-weight-medium",attrs:{"id":"periodTabs"}},[_c('ul',{staticClass:"has-text-weight-medium"},[_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'day' },on:{"click":function($event){_vm.activeTab = 'day';  _vm.shouldSmooth='false'; _vm.showHours=24;}}},[_vm._m(0)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'week' },on:{"click":function($event){_vm.activeTab = 'week'; _vm.shouldSmooth='true'; _vm.showHours=168;}}},[_vm._m(1)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'month' },on:{"click":function($event){_vm.activeTab = 'month';  _vm.shouldSmooth='true'; _vm.showHours=672;}}},[_vm._m(2)])])]),_c('section',{staticClass:"my-3"},[_c('label',{staticClass:"is-size-5 mr-1"},[_vm._v("Apply Smoothing")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.shouldSmooth),expression:"shouldSmooth"}],attrs:{"type":"checkbox","true-value":"true","false-value":"false"},domProps:{"checked":Array.isArray(_vm.shouldSmooth)?_vm._i(_vm.shouldSmooth,null)>-1:_vm._q(_vm.shouldSmooth,"true")},on:{"change":[function($event){var $$a=_vm.shouldSmooth,$$el=$event.target,$$c=$$el.checked?("true"):("false");if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.shouldSmooth=$$a.concat([$$v]))}else{$$i>-1&&(_vm.shouldSmooth=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.shouldSmooth=$$c}},function($event){return _vm.populate()}]}})]),_c('div',{staticStyle:{"margin-right":"1rem"}},[_c('LineChart',{attrs:{"chartData":_vm.chartData,"chartOptions":_vm.chartDefaults}},[_c('VueProgress',{staticStyle:{"width":"230px","height":"230px"}},[_c('svg',{attrs:{"width":"230","height":"230","viewBox":"0 0 230 230"}},[_c('g',{attrs:{"transform":"translate(25, 25) rotate(0, 90, 90)"}},[_c('g',{staticClass:"container"},[_c('path',{staticClass:"background",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"}}),_c('path',{staticClass:"progress",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80","stroke-dasharray":"282.010498046875 282.010498046875","stroke-dashoffset":"-140390.1212388579"}})])])])])],1)],1),_c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("Sensor data for the last "+_vm._s(_vm.activeTab)+" ("+_vm._s(_vm.showHours)+"hrs)")])]),_c('p',[_vm._v("The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.")]),_c('p',[_vm._v("Hover over the line to see more detailed values.")])]),_c('p',{staticClass:"mt-5"},[_vm._v("This view will be improved as we continue with the project.")])]),_vm._m(3)])}
+var SensorHistoryvue_type_template_id_0727b6d4_shadow_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Day")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Week")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Month")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("About smoothing")])]),_c('p',[_vm._v(" The "),_c('a',{attrs:{"href":"https://dawn.cs.stanford.edu//2017/08/07/asap/"}},[_vm._v("type of smoothing used")]),_vm._v(" aims to preserve as much of the outlier values as possible and make trends easier to spot. ")]),_c('p',[_vm._v("It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.")]),_c('p',[_vm._v("When viewing longer data periods without smoothing, the chart will take longer to load and trends may be harder to pich out of the data.")]),_c('p',{staticClass:"mt-5"},[_vm._v("We intend to create additional views to better visualise extreme values.")])])])}]
 
 
-// CONCATENATED MODULE: ./src/components/SensorHistory.vue?vue&type=template&id=066ac690&shadow
+// CONCATENATED MODULE: ./src/components/SensorHistory.vue?vue&type=template&id=0727b6d4&shadow
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
 var web_dom_collections_iterator = __webpack_require__("ddb0");
@@ -26004,8 +26001,8 @@ var web_dom_collections_iterator = __webpack_require__("ddb0");
     populate() {
       // console.log(this.chartData);
       for (var i = 0; i < this.chartData.length; i++) {
-        this.chartData[0].points[i].fillColor = getPointColor(0, this.ChartData);
-        this.chartData[1].points[i].fillColor = getPointColor(1, this.ChartData);
+        this.chartData[0].points[i].fillColor = this.getPointColor(0, this.ChartData);
+        this.chartData[1].points[i].fillColor = this.getPointColor(1, this.ChartData);
       }
 
       this.renderChart(this.chartData, this.chartOptions); //generate color range between based on values
@@ -26037,15 +26034,12 @@ var web_dom_collections_iterator = __webpack_require__("ddb0");
     this.addPlugin({
       id: "vary-color",
 
-      beforeDatasetUpdate(chart) {
-        var newLabels = [[], []];
-
+      beforeDatasetUpdate() {
         function addPointColors(datasetIndex) {
           var pointColors = [];
 
           for (var i = 0; i < component.chartData.datasets[datasetIndex].data.length; i++) pointColors.push(component.getPointColor(0, component.chartData.datasets[datasetIndex].data[i].y));
 
-          console.log(pointColors[0]);
           component.chartData.datasets[datasetIndex].pointBackgroundColor = pointColors;
         }
 
@@ -26058,7 +26052,6 @@ var web_dom_collections_iterator = __webpack_require__("ddb0");
   }
 
 });
-var LineChartvue_type_script_lang_js_hoveredDatasetIndex;
 var LineChartvue_type_script_lang_js_ChartDefaults = {
   pointColorAlpha: 0.4,
   responsive: true,
@@ -26082,11 +26075,18 @@ var LineChartvue_type_script_lang_js_ChartDefaults = {
         unit: "hour",
         tooltipFormat: "HH:mm MMM D",
         displayFormats: {
-          hour: "HH:mm"
+          hour: "HH:mm",
+          day: 'D MMMM'
         }
       },
       gridLines: {
         display: false
+      },
+      ticks: {
+        source: 'auto',
+        major: {
+          enabled: true
+        }
       }
     }],
     yAxes: [{
@@ -26104,19 +26104,13 @@ var LineChartvue_type_script_lang_js_ChartDefaults = {
       usePointStyle: false
     },
     onHover: function (event, legendItem) {
-      var _this$chartOptions;
-
-      var hoverOptions = ((_this$chartOptions = this.chartOptions) === null || _this$chartOptions === void 0 ? void 0 : _this$chartOptions.hover) || {};
       var ci = this.chart;
       ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(legendItem.datasetIndex).data, null, true);
       ci.render();
     },
-    onLeave: function (event, legendItem) {
-      var _this$chartOptions2;
-
-      var hoverOptions = ((_this$chartOptions2 = this.chartOptions) === null || _this$chartOptions2 === void 0 ? void 0 : _this$chartOptions2.hover) || {};
+    onLeave: function () {
       var ci = this.chart;
       ci.updateHoverStyle(ci.getDatasetMeta(0).data, null, false);
       ci.updateHoverStyle(ci.getDatasetMeta(1).data, null, false);
@@ -26842,7 +26836,6 @@ https://epic-spinners.epicmax.co/?ref=madewithvuejs.com
         labels: [],
         datasets: [...this.defaultData]
       };
-      console.log(this.showHours);
 
       if (this.device_id) {
         this.fetchBoxData(this.device_id, "PM2.5", this.showHours, this.useHourlyMean, pm2_5data => {
@@ -26910,8 +26903,6 @@ https://epic-spinners.epicmax.co/?ref=madewithvuejs.com
     },
 
     fillDataSet(index, dataset) {
-      console.log(this.shouldSmooth);
-      console.log(dataset.length);
       if (this.shouldSmooth != "false" && this.shouldSmooth) dataset = this.applySmoothing([...dataset]);
       var pm2_5 = this.chartData.datasets[0];
       var pm10 = this.chartData.datasets[1];
@@ -26942,8 +26933,8 @@ if (style0.__inject__) style0.__inject__(context)
 
 var SensorHistoryshadow_component = normalizeComponent(
   components_SensorHistoryvue_type_script_lang_js_shadow,
-  SensorHistoryvue_type_template_id_066ac690_shadow_render,
-  SensorHistoryvue_type_template_id_066ac690_shadow_staticRenderFns,
+  SensorHistoryvue_type_template_id_0727b6d4_shadow_render,
+  SensorHistoryvue_type_template_id_0727b6d4_shadow_staticRenderFns,
   false,
   SensorHistoryshadow_injectStyles,
   null,
@@ -33467,12 +33458,12 @@ var SensorLiveView_component = normalizeComponent(
 )
 
 /* harmony default export */ var SensorLiveView = (SensorLiveView_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4b74413e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SensorHistory.vue?vue&type=template&id=54a7a97a&
-var SensorHistoryvue_type_template_id_54a7a97a_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"tab-content has-text-centered my-6",attrs:{"id":"OverTime"}},[_c('div',{staticClass:"pt-1 tabs is-toggle is-toggle-rounded is-centered has-text-black has-text-weight-medium",attrs:{"id":"periodTabs"}},[_c('ul',{staticClass:"has-text-weight-medium"},[_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'day' },on:{"click":function($event){_vm.activeTab = 'day';  _vm.shouldSmooth='false'; _vm.showHours=24;}}},[_vm._m(0)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'week' },on:{"click":function($event){_vm.activeTab = 'week'; _vm.shouldSmooth='true'; _vm.showHours=168;}}},[_vm._m(1)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'month' },on:{"click":function($event){_vm.activeTab = 'month';  _vm.shouldSmooth='true'; _vm.showHours=672;}}},[_vm._m(2)])])]),_c('section',{staticClass:"my-3"},[_c('label',{staticClass:"is-size-5 mr-1"},[_vm._v("Apply Smoothing")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.shouldSmooth),expression:"shouldSmooth"}],attrs:{"type":"checkbox","true-value":"true","false-value":"false"},domProps:{"checked":Array.isArray(_vm.shouldSmooth)?_vm._i(_vm.shouldSmooth,null)>-1:_vm._q(_vm.shouldSmooth,"true")},on:{"change":[function($event){var $$a=_vm.shouldSmooth,$$el=$event.target,$$c=$$el.checked?("true"):("false");if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.shouldSmooth=$$a.concat([$$v]))}else{$$i>-1&&(_vm.shouldSmooth=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.shouldSmooth=$$c}},function($event){return _vm.populate()}]}})]),_c('div',{staticStyle:{"margin-right":"1rem"}},[_c('LineChart',{attrs:{"chartData":_vm.chartData,"chartOptions":_vm.chartDefaults}},[_c('VueProgress',{staticStyle:{"width":"230px","height":"230px"}},[_c('svg',{attrs:{"width":"230","height":"230","viewBox":"0 0 230 230"}},[_c('g',{attrs:{"transform":"translate(25, 25) rotate(0, 90, 90)"}},[_c('g',{staticClass:"container"},[_c('path',{staticClass:"background",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"}}),_c('path',{staticClass:"progress",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80","stroke-dasharray":"282.010498046875 282.010498046875","stroke-dashoffset":"-140390.1212388579"}})])])])])],1)],1),_c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("Sensor data for the last "+_vm._s(_vm.activeTab)+" ("+_vm._s(_vm.showHours)+"hrs)")])]),_c('p',[_vm._v("The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.")]),_c('p',[_vm._v("Hover over the line to see more detailed values.")])]),_c('p',{staticClass:"mt-5"},[_vm._v("This view will be improved as we continue with the project.")])]),_vm._m(3)])}
-var SensorHistoryvue_type_template_id_54a7a97a_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Day")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Week")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Month")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("About smoothing")])]),_c('p',[_vm._v(" The "),_c('a',{attrs:{"href":"https://dawn.cs.stanford.edu//2017/08/07/asap/"}},[_vm._v("type of smoothing used")]),_vm._v(" aims to preserve as much of the outlier values as possible and make trends easier to spot. ")]),_c('p',[_vm._v("It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.")]),_c('p',[_vm._v("When viewing longer data periods without smoothing, the chart will take longer to load and trends may be harder to pich out of the data.")]),_c('p',{staticClass:"mt-5"},[_vm._v("We intend to create additional views to better visualise extreme values.")])])])}]
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4b74413e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SensorHistory.vue?vue&type=template&id=4f3f41df&
+var SensorHistoryvue_type_template_id_4f3f41df_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"tab-content has-text-centered my-6",attrs:{"id":"OverTime"}},[_c('div',{staticClass:"pt-1 tabs is-toggle is-toggle-rounded is-centered has-text-black has-text-weight-medium",attrs:{"id":"periodTabs"}},[_c('ul',{staticClass:"has-text-weight-medium"},[_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'day' },on:{"click":function($event){_vm.activeTab = 'day';  _vm.shouldSmooth='false'; _vm.showHours=24;}}},[_vm._m(0)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'week' },on:{"click":function($event){_vm.activeTab = 'week'; _vm.shouldSmooth='true'; _vm.showHours=168;}}},[_vm._m(1)]),_c('li',{staticClass:"has-text-black has-text-weight-medium tab",class:{ 'is-active': _vm.activeTab == 'month' },on:{"click":function($event){_vm.activeTab = 'month';  _vm.shouldSmooth='true'; _vm.showHours=672;}}},[_vm._m(2)])])]),_c('section',{staticClass:"my-3"},[_c('label',{staticClass:"is-size-5 mr-1"},[_vm._v("Apply Smoothing")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.shouldSmooth),expression:"shouldSmooth"}],attrs:{"type":"checkbox","true-value":"true","false-value":"false"},domProps:{"checked":Array.isArray(_vm.shouldSmooth)?_vm._i(_vm.shouldSmooth,null)>-1:_vm._q(_vm.shouldSmooth,"true")},on:{"change":[function($event){var $$a=_vm.shouldSmooth,$$el=$event.target,$$c=$$el.checked?("true"):("false");if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.shouldSmooth=$$a.concat([$$v]))}else{$$i>-1&&(_vm.shouldSmooth=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.shouldSmooth=$$c}},function($event){return _vm.populate()}]}})]),_c('div',{staticStyle:{"margin-right":"1rem"}},[_c('LineChart',{attrs:{"chartData":_vm.chartData,"chartOptions":_vm.chartDefaults}},[_c('VueProgress',{staticStyle:{"width":"230px","height":"230px"}},[_c('svg',{attrs:{"width":"230","height":"230","viewBox":"0 0 230 230"}},[_c('g',{attrs:{"transform":"translate(25, 25) rotate(0, 90, 90)"}},[_c('g',{staticClass:"container"},[_c('path',{staticClass:"background",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"}}),_c('path',{staticClass:"progress",attrs:{"d":"M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80","stroke-dasharray":"282.010498046875 282.010498046875","stroke-dashoffset":"-140390.1212388579"}})])])])])],1)],1),_c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("Sensor data for the last "+_vm._s(_vm.activeTab)+" ("+_vm._s(_vm.showHours)+"hrs)")])]),_c('p',[_vm._v("The 2 lines represent particulate matter values (µg per m³) for partcle sizes 2.5µm and 10µm.")]),_c('p',[_vm._v("Hover over the line to see more detailed values.")])]),_c('p',{staticClass:"mt-5"},[_vm._v("This view will be improved as we continue with the project.")])]),_vm._m(3)])}
+var SensorHistoryvue_type_template_id_4f3f41df_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Day")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Week")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',[_c('span',{staticClass:"has-text-black has-text-weight-bold"},[_vm._v("Month")])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('article',{staticClass:"article my-6"},[_c('div',[_c('p',{staticClass:"mb-3"},[_c('strong',[_vm._v("About smoothing")])]),_c('p',[_vm._v(" The "),_c('a',{attrs:{"href":"https://dawn.cs.stanford.edu//2017/08/07/asap/"}},[_vm._v("type of smoothing used")]),_vm._v(" aims to preserve as much of the outlier values as possible and make trends easier to spot. ")]),_c('p',[_vm._v("It does however, use aggregated values, so will loose detail and will not reveal the extent of the outlier values.")]),_c('p',[_vm._v("When viewing longer data periods without smoothing, the chart will take longer to load and trends may be harder to pich out of the data.")]),_c('p',{staticClass:"mt-5"},[_vm._v("We intend to create additional views to better visualise extreme values.")])])])}]
 
 
-// CONCATENATED MODULE: ./src/components/SensorHistory.vue?vue&type=template&id=54a7a97a&
+// CONCATENATED MODULE: ./src/components/SensorHistory.vue?vue&type=template&id=4f3f41df&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/SensorHistory.vue?vue&type=script&lang=js&
 
@@ -33675,7 +33666,6 @@ https://epic-spinners.epicmax.co/?ref=madewithvuejs.com
         labels: [],
         datasets: [...this.defaultData]
       };
-      console.log(this.showHours);
 
       if (this.device_id) {
         this.fetchBoxData(this.device_id, "PM2.5", this.showHours, this.useHourlyMean, pm2_5data => {
@@ -33743,8 +33733,6 @@ https://epic-spinners.epicmax.co/?ref=madewithvuejs.com
     },
 
     fillDataSet(index, dataset) {
-      console.log(this.shouldSmooth);
-      console.log(dataset.length);
       if (this.shouldSmooth != "false" && this.shouldSmooth) dataset = this.applySmoothing([...dataset]);
       var pm2_5 = this.chartData.datasets[0];
       var pm10 = this.chartData.datasets[1];
@@ -33775,8 +33763,8 @@ if (style0.__inject__) style0.__inject__(context)
 
 var SensorHistory_component = normalizeComponent(
   components_SensorHistoryvue_type_script_lang_js_,
-  SensorHistoryvue_type_template_id_54a7a97a_render,
-  SensorHistoryvue_type_template_id_54a7a97a_staticRenderFns,
+  SensorHistoryvue_type_template_id_4f3f41df_render,
+  SensorHistoryvue_type_template_id_4f3f41df_staticRenderFns,
   false,
   SensorHistory_injectStyles,
   null,
